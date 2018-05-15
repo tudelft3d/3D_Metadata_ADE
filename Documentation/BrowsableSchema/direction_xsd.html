@@ -1,0 +1,2029 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for direction.xsd</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_direction.xsd', 
+				'properties_DirectionVector', 
+				'properties_DirectionVectorType_horizontalAngle', 
+				'properties_DirectionVectorType_verticalAngle', 
+				'properties_CompassPoint', 
+				'properties_DirectionPropertyType_DirectionKeyword', 
+				'properties_DirectionPropertyType_DirectionString', 
+				'properties_direction');
+var facetsBoxes= new Array('facets_CompassPoint', 
+				'facets_CompassPointEnumeration');
+var usedByBoxes= new Array('usedBy_DirectionVector', 
+				'usedBy_CompassPoint', 
+				'usedBy_direction', 
+				'usedBy_DirectionPropertyType', 
+				'usedBy_DirectionVectorType', 
+				'usedBy_CompassPointEnumeration');
+var sourceBoxes= new Array('source_DirectionVector', 
+				'source_DirectionVectorType_horizontalAngle', 
+				'source_DirectionVectorType_verticalAngle', 
+				'source_CompassPoint', 
+				'source_DirectionPropertyType_DirectionKeyword', 
+				'source_DirectionPropertyType_DirectionString', 
+				'source_direction', 
+				'source_DirectionPropertyType', 
+				'source_DirectionVectorType', 
+				'source_CompassPointEnumeration');
+var instanceBoxes= new Array('instance_DirectionVector', 
+				'instance_direction');
+var diagramBoxes= new Array('diagram_DirectionVector', 
+				'diagram_DirectionVectorType_horizontalAngle', 
+				'diagram_DirectionVectorType_verticalAngle', 
+				'diagram_CompassPoint', 
+				'diagram_DirectionPropertyType_DirectionKeyword', 
+				'diagram_DirectionPropertyType_DirectionString', 
+				'diagram_direction', 
+				'diagram_DirectionPropertyType', 
+				'diagram_DirectionVectorType', 
+				'diagram_CompassPointEnumeration');
+var annotationBoxes= new Array('annotations_direction.xsd', 
+				'annotations_DirectionPropertyType', 
+				'annotations_DirectionVectorType');
+var attributesBoxes= new Array('attributes_DirectionVectorType_horizontalAngle', 
+				'attributes_DirectionVectorType_verticalAngle', 
+				'attributes_DirectionPropertyType_DirectionKeyword', 
+				'attributes_DirectionPropertyType_DirectionString', 
+				'attributes_direction', 
+				'attributes_DirectionPropertyType');
+var modelBoxes= new Array('model_DirectionVector', 
+				'model_direction', 
+				'model_DirectionPropertyType', 
+				'model_DirectionVectorType');
+
+      
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, facetsBoxes);" class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="direction.xsd"></a><div class="componentTitle">Included schema <span class="qname">direction.xsd</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.opengis.net/gml</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_direction.xsd" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_direction.xsd');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_direction.xsd" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This schema defines "direction" element and type.</span><span class="tI">
+</span><span class="tT">			</span><span class="tI">
+</span><span class="tT">GML is an OGC Standard.</span><span class="tI">
+</span><span class="tT">Copyright (c) 2001,2005,2010 Open Geospatial Consortium.</span><span class="tI">
+</span><span class="tT">To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_direction.xsd" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_direction.xsd');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_direction.xsd" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">attribute form default</td>
+                                    <td><b>unqualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">element form default</td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">version</td>
+                                    <td><b>3.1.1.2</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="DirectionVector"></a><div class="componentTitle">Element <span class="qname">gml:DirectionVector</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.opengis.net/gml</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_DirectionVector" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_DirectionVector');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_DirectionVector" style="display:block"><img alt="Diagram" border="0" src="img/direction_xsd_Element_gml_DirectionVector.jpeg" usemap="#direction_xsd_Element_gml_DirectionVector" /><map name="direction_xsd_Element_gml_DirectionVector" id="direction_xsd_Element_gml_DirectionVector">
+                                 <area alt="geometryBasic0d1d_xsd.tmp#vector" href="geometryBasic0d1d_xsd.html#vector" coords="228,40,316,64" />
+                                 <area alt="direction_xsd.tmp#DirectionVectorType_horizontalAngle" href="direction_xsd.html#DirectionVectorType_horizontalAngle" coords="299,74,416,98" />
+                                 <area alt="direction_xsd.tmp#DirectionVectorType_verticalAngle" href="direction_xsd.html#DirectionVectorType_verticalAngle" coords="299,108,400,132" />
+                                 <area alt="direction_xsd.tmp#DirectionVectorType" href="direction_xsd.html#DirectionVectorType" coords="146,3,330,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="direction_xsd.html#DirectionVectorType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionVectorType</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_DirectionVector" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_DirectionVector');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_DirectionVector" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_DirectionVector" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_DirectionVector');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_DirectionVector" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Complex Type </td>
+                                    <td><b><a href="direction_xsd.html#DirectionPropertyType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionPropertyType</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_DirectionVector" type="image" src="img/btM.gif" value="-" onclick="switchState('model_DirectionVector');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_DirectionVector" style="display:block"><b><a href="geometryBasic0d1d_xsd.html#vector" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for geometryBasic0d1d.xsd')">gml:vector</a></b> | (<b><a href="direction_xsd.html#DirectionVectorType_horizontalAngle" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:horizontalAngle</a></b> , <b><a href="direction_xsd.html#DirectionVectorType_verticalAngle" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:verticalAngle</a></b>)
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="direction_xsd.html#DirectionVectorType_horizontalAngle" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:horizontalAngle</a></b>, <b><a href="geometryBasic0d1d_xsd.html#vector" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for geometryBasic0d1d.xsd')">gml:vector</a></b>, <b><a href="direction_xsd.html#DirectionVectorType_verticalAngle" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:verticalAngle</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_DirectionVector" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_DirectionVector');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_DirectionVector" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;gml:DirectionVector</span><span class="tT"> </span><span class="tAN">xmlns:gml=</span><span class="tAV">"http://www.opengis.net/gml"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;gml:vector</span><span class="tT"> </span><span class="tAN">axisLabels=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">srsDimension=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">srsName=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">uomLabels=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/gml:vector&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;gml:horizontalAngle</span><span class="tT"> </span><span class="tAN">uom=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/gml:horizontalAngle&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;gml:verticalAngle</span><span class="tT"> </span><span class="tAN">uom=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/gml:verticalAngle&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/gml:DirectionVector&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_DirectionVector" type="image" src="img/btM.gif" value="-" onclick="switchState('source_DirectionVector');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_DirectionVector" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;element</span><span class="tAN"> name=</span><span class="tAV">"DirectionVector"</span><span class="tAN"> type=</span><span class="tAV">"gml:DirectionVectorType"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="DirectionVectorType_horizontalAngle"></a><div class="componentTitle">Element <span class="qname"><b><a href="direction_xsd.html#DirectionVectorType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionVectorType</a></b> / gml:horizontalAngle</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.opengis.net/gml</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_DirectionVectorType_horizontalAngle" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_DirectionVectorType_horizontalAngle');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_DirectionVectorType_horizontalAngle" style="display:block"><img alt="Diagram" border="0" src="img/direction_xsd_Element_gml_horizontalAngle.jpeg" usemap="#direction_xsd_Element_gml_horizontalAngle" /><map name="direction_xsd_Element_gml_horizontalAngle" id="direction_xsd_Element_gml_horizontalAngle">
+                                 <area alt="basicTypes_xsd.tmp#MeasureType_uom" href="basicTypes_xsd.html#MeasureType_uom" coords="187,210,259,234" />
+                                 <area alt="basicTypes_xsd.tmp#MeasureType" href="basicTypes_xsd.html#MeasureType" coords="162,43,402,65" />
+                                 <area alt="measures_xsd.tmp#AngleType" href="measures_xsd.html#AngleType" coords="148,3,279,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="measures_xsd.html#AngleType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for measures.xsd')">gml:AngleType</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul class="internal">
+                              <li class="internal"><b>double</b><ul class="internal">
+                                    <li class="internal"><b><a href="basicTypes_xsd.html#MeasureType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for basicTypes.xsd')">gml:MeasureType</a></b><ul class="internal">
+                                          <li class="internal"><b><a href="measures_xsd.html#AngleType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for measures.xsd')">gml:AngleType</a></b></li>
+                                       </ul>
+                                    </li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_DirectionVectorType_horizontalAngle" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_DirectionVectorType_horizontalAngle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_DirectionVectorType_horizontalAngle" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_DirectionVectorType_horizontalAngle" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_DirectionVectorType_horizontalAngle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_DirectionVectorType_horizontalAngle" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="basicTypes_xsd.html#MeasureType_uom" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for basicTypes.xsd')">uom</a></b></td>
+                                    <td><b>anyURI</b></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_DirectionVectorType_horizontalAngle" type="image" src="img/btM.gif" value="-" onclick="switchState('source_DirectionVectorType_horizontalAngle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_DirectionVectorType_horizontalAngle" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;element</span><span class="tAN"> name=</span><span class="tAV">"horizontalAngle"</span><span class="tAN"> type=</span><span class="tAV">"gml:AngleType"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="DirectionVectorType_verticalAngle"></a><div class="componentTitle">Element <span class="qname"><b><a href="direction_xsd.html#DirectionVectorType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionVectorType</a></b> / gml:verticalAngle</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.opengis.net/gml</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_DirectionVectorType_verticalAngle" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_DirectionVectorType_verticalAngle');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_DirectionVectorType_verticalAngle" style="display:block"><img alt="Diagram" border="0" src="img/direction_xsd_Element_gml_verticalAngle.jpeg" usemap="#direction_xsd_Element_gml_verticalAngle" /><map name="direction_xsd_Element_gml_verticalAngle" id="direction_xsd_Element_gml_verticalAngle">
+                                 <area alt="basicTypes_xsd.tmp#MeasureType_uom" href="basicTypes_xsd.html#MeasureType_uom" coords="171,210,243,234" />
+                                 <area alt="basicTypes_xsd.tmp#MeasureType" href="basicTypes_xsd.html#MeasureType" coords="146,43,386,65" />
+                                 <area alt="measures_xsd.tmp#AngleType" href="measures_xsd.html#AngleType" coords="132,3,263,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="measures_xsd.html#AngleType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for measures.xsd')">gml:AngleType</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul class="internal">
+                              <li class="internal"><b>double</b><ul class="internal">
+                                    <li class="internal"><b><a href="basicTypes_xsd.html#MeasureType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for basicTypes.xsd')">gml:MeasureType</a></b><ul class="internal">
+                                          <li class="internal"><b><a href="measures_xsd.html#AngleType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for measures.xsd')">gml:AngleType</a></b></li>
+                                       </ul>
+                                    </li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_DirectionVectorType_verticalAngle" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_DirectionVectorType_verticalAngle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_DirectionVectorType_verticalAngle" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_DirectionVectorType_verticalAngle" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_DirectionVectorType_verticalAngle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_DirectionVectorType_verticalAngle" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="basicTypes_xsd.html#MeasureType_uom" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for basicTypes.xsd')">uom</a></b></td>
+                                    <td><b>anyURI</b></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_DirectionVectorType_verticalAngle" type="image" src="img/btM.gif" value="-" onclick="switchState('source_DirectionVectorType_verticalAngle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_DirectionVectorType_verticalAngle" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;element</span><span class="tAN"> name=</span><span class="tAV">"verticalAngle"</span><span class="tAN"> type=</span><span class="tAV">"gml:AngleType"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="CompassPoint"></a><div class="componentTitle">Element <span class="qname">gml:CompassPoint</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.opengis.net/gml</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_CompassPoint" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_CompassPoint');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_CompassPoint" style="display:block"><img alt="Diagram" border="0" src="img/direction_xsd_Element_gml_CompassPoint.jpeg" usemap="#direction_xsd_Element_gml_CompassPoint" /><map name="direction_xsd_Element_gml_CompassPoint" id="direction_xsd_Element_gml_CompassPoint">
+                                 <area alt="direction_xsd.tmp#CompassPointEnumeration" href="direction_xsd.html#CompassPointEnumeration" coords="136,0,359,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="direction_xsd.html#CompassPointEnumeration" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:CompassPointEnumeration</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_CompassPoint" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_CompassPoint');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_CompassPoint" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_CompassPoint" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_CompassPoint');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_CompassPoint" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>N</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NNE</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NE</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ENE</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>E</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ESE</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>SE</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>SSE</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>S</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>SSW</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>SW</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>WSW</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>W</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>WNW</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NW</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NNW</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_CompassPoint" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_CompassPoint');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_CompassPoint" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Complex Type </td>
+                                    <td><b><a href="direction_xsd.html#DirectionPropertyType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionPropertyType</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_CompassPoint" type="image" src="img/btM.gif" value="-" onclick="switchState('source_CompassPoint');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_CompassPoint" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;element</span><span class="tAN"> name=</span><span class="tAV">"CompassPoint"</span><span class="tAN"> type=</span><span class="tAV">"gml:CompassPointEnumeration"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="DirectionPropertyType_DirectionKeyword"></a><div class="componentTitle">Element <span class="qname"><b><a href="direction_xsd.html#DirectionPropertyType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionPropertyType</a></b> / gml:DirectionKeyword</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.opengis.net/gml</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_DirectionPropertyType_DirectionKeyword" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_DirectionPropertyType_DirectionKeyword');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_DirectionPropertyType_DirectionKeyword" style="display:block"><img alt="Diagram" border="0" src="img/direction_xsd_Element_gml_DirectionKeyword.jpeg" usemap="#direction_xsd_Element_gml_DirectionKeyword" /><map name="direction_xsd_Element_gml_DirectionKeyword" id="direction_xsd_Element_gml_DirectionKeyword">
+                                 <area alt="basicTypes_xsd.tmp#CodeType_codeSpace" href="basicTypes_xsd.html#CodeType_codeSpace" coords="182,157,287,181" />
+                                 <area alt="basicTypes_xsd.tmp#CodeType" href="basicTypes_xsd.html#CodeType" coords="157,3,285,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="basicTypes_xsd.html#CodeType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for basicTypes.xsd')">gml:CodeType</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_DirectionPropertyType_DirectionKeyword" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_DirectionPropertyType_DirectionKeyword');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_DirectionPropertyType_DirectionKeyword" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_DirectionPropertyType_DirectionKeyword" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_DirectionPropertyType_DirectionKeyword');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_DirectionPropertyType_DirectionKeyword" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="basicTypes_xsd.html#CodeType_codeSpace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for basicTypes.xsd')">codeSpace</a></b></td>
+                                    <td><b>anyURI</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_DirectionPropertyType_DirectionKeyword" type="image" src="img/btM.gif" value="-" onclick="switchState('source_DirectionPropertyType_DirectionKeyword');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_DirectionPropertyType_DirectionKeyword" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;element</span><span class="tAN"> name=</span><span class="tAV">"DirectionKeyword"</span><span class="tAN"> type=</span><span class="tAV">"gml:CodeType"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="DirectionPropertyType_DirectionString"></a><div class="componentTitle">Element <span class="qname"><b><a href="direction_xsd.html#DirectionPropertyType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionPropertyType</a></b> / gml:DirectionString</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.opengis.net/gml</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_DirectionPropertyType_DirectionString" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_DirectionPropertyType_DirectionString');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_DirectionPropertyType_DirectionString" style="display:block"><img alt="Diagram" border="0" src="img/direction_xsd_Element_gml_DirectionString.jpeg" usemap="#direction_xsd_Element_gml_DirectionString" /><map name="direction_xsd_Element_gml_DirectionString" id="direction_xsd_Element_gml_DirectionString">
+                                 <area alt="gmlBase_xsd.tmp#AssociationAttributeGroup" href="gmlBase_xsd.html#AssociationAttributeGroup" coords="171,160,394,186" />
+                                 <area alt="gmlBase_xsd.tmp#StringOrRefType" href="gmlBase_xsd.html#StringOrRefType" coords="143,3,306,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="gmlBase_xsd.html#StringOrRefType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for gmlBase.xsd')">gml:StringOrRefType</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_DirectionPropertyType_DirectionString" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_DirectionPropertyType_DirectionString');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_DirectionPropertyType_DirectionString" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_DirectionPropertyType_DirectionString" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_DirectionPropertyType_DirectionString');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_DirectionPropertyType_DirectionString" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Fixed</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="gmlBase_xsd.html#remoteSchema" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for gmlBase.xsd')">gml:remoteSchema</a></b></td>
+                                    <td><b>anyURI</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Reference to an XML Schema fragment that specifies the content model of the propertys value. This is in conformance with the XML Schema Section 4.14 Referencing Schemas from Elsewhere.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#actuate" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:actuate</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#actuateType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:actuateType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#arcrole" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcrole</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#arcroleType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcroleType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#href" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:href</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#hrefType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:hrefType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#role" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:role</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#roleType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:roleType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#show" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:show</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#showType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:showType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#title" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:title</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#titleAttrType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:titleAttrType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#type" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:type</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#typeType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:typeType</a></b></td>
+                                    <td>simple</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_DirectionPropertyType_DirectionString" type="image" src="img/btM.gif" value="-" onclick="switchState('source_DirectionPropertyType_DirectionString');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_DirectionPropertyType_DirectionString" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;element</span><span class="tAN"> name=</span><span class="tAV">"DirectionString"</span><span class="tAN"> type=</span><span class="tAV">"gml:StringOrRefType"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="direction"></a><div class="componentTitle">Element <span class="qname">gml:direction</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.opengis.net/gml</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_direction" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_direction');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_direction" style="display:block"><img alt="Diagram" border="0" src="img/direction_xsd_Element_gml_direction.jpeg" usemap="#direction_xsd_Element_gml_direction" /><map name="direction_xsd_Element_gml_direction" id="direction_xsd_Element_gml_direction">
+                                 <area alt="gmlBase_xsd.tmp#AssociationAttributeGroup" href="gmlBase_xsd.html#AssociationAttributeGroup" coords="138,81,361,107" />
+                                 <area alt="direction_xsd.tmp#DirectionVector" href="direction_xsd.html#DirectionVector" coords="192,172,330,196" />
+                                 <area alt="direction_xsd.tmp#CompassPoint" href="direction_xsd.html#CompassPoint" coords="192,206,323,230" />
+                                 <area alt="direction_xsd.tmp#DirectionPropertyType_DirectionKeyword" href="direction_xsd.html#DirectionPropertyType_DirectionKeyword" coords="192,240,318,264" />
+                                 <area alt="direction_xsd.tmp#DirectionPropertyType_DirectionString" href="direction_xsd.html#DirectionPropertyType_DirectionString" coords="192,274,304,298" />
+                                 <area alt="direction_xsd.tmp#DirectionPropertyType" href="direction_xsd.html#DirectionPropertyType" coords="110,3,305,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="direction_xsd.html#DirectionPropertyType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionPropertyType</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_direction" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_direction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_direction" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_direction" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_direction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_direction" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Complex Types </td>
+                                    <td><b><a href="observation_xsd.html#DirectedObservationAtDistanceType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for observation.xsd')">gml:DirectedObservationAtDistanceType</a></b>, <b><a href="observation_xsd.html#DirectedObservationType" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for observation.xsd')">gml:DirectedObservationType</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_direction" type="image" src="img/btM.gif" value="-" onclick="switchState('model_direction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_direction" style="display:block"><b><a href="direction_xsd.html#DirectionVector" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionVector</a></b> | <b><a href="direction_xsd.html#CompassPoint" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:CompassPoint</a></b> | <b><a href="direction_xsd.html#DirectionPropertyType_DirectionKeyword" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionKeyword</a></b> | <b><a href="direction_xsd.html#DirectionPropertyType_DirectionString" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionString</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="direction_xsd.html#CompassPoint" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:CompassPoint</a></b>, <b><a href="direction_xsd.html#DirectionPropertyType_DirectionKeyword" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionKeyword</a></b>, <b><a href="direction_xsd.html#DirectionPropertyType_DirectionString" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionString</a></b>, <b><a href="direction_xsd.html#DirectionVector" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionVector</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_direction" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_direction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_direction" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;gml:direction</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:arcrole=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">gml:remoteSchema=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">"simple"</span><span class="tT"> </span><span class="tAN">xmlns:gml=</span><span class="tAV">"http://www.opengis.net/gml"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;gml:DirectionVector</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/gml:DirectionVector&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;gml:CompassPoint</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/gml:CompassPoint&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;gml:DirectionKeyword</span><span class="tT"> </span><span class="tAN">codeSpace=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/gml:DirectionKeyword&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;gml:DirectionString</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:arcrole=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">gml:remoteSchema=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">"simple"</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/gml:DirectionString&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/gml:direction&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_direction" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_direction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_direction" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Fixed</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="gmlBase_xsd.html#remoteSchema" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for gmlBase.xsd')">gml:remoteSchema</a></b></td>
+                                    <td><b>anyURI</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Reference to an XML Schema fragment that specifies the content model of the propertys value. This is in conformance with the XML Schema Section 4.14 Referencing Schemas from Elsewhere.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#actuate" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:actuate</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#actuateType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:actuateType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#arcrole" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcrole</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#arcroleType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcroleType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#href" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:href</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#hrefType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:hrefType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#role" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:role</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#roleType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:roleType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#show" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:show</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#showType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:showType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#title" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:title</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#titleAttrType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:titleAttrType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#type" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:type</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#typeType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:typeType</a></b></td>
+                                    <td>simple</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_direction" type="image" src="img/btM.gif" value="-" onclick="switchState('source_direction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_direction" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;element</span><span class="tAN"> name=</span><span class="tAV">"direction"</span><span class="tAN"> type=</span><span class="tAV">"gml:DirectionPropertyType"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="DirectionPropertyType"></a><div class="componentTitle">Complex Type <span class="qname">gml:DirectionPropertyType</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.opengis.net/gml</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_DirectionPropertyType" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_DirectionPropertyType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_DirectionPropertyType" style="display:block">
+                              <div class="annotation"></div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_DirectionPropertyType" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_DirectionPropertyType');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_DirectionPropertyType" style="display:block"><img alt="Diagram" border="0" src="img/direction_xsd_Complex_Type_gml_DirectionPropertyType.jpeg" usemap="#direction_xsd_Complex_Type_gml_DirectionPropertyType" /><map name="direction_xsd_Complex_Type_gml_DirectionPropertyType" id="direction_xsd_Complex_Type_gml_DirectionPropertyType">
+                                 <area alt="gmlBase_xsd.tmp#AssociationAttributeGroup" href="gmlBase_xsd.html#AssociationAttributeGroup" coords="221,41,444,67" />
+                                 <area alt="direction_xsd.tmp#DirectionVector" href="direction_xsd.html#DirectionVector" coords="275,132,413,156" />
+                                 <area alt="direction_xsd.tmp#CompassPoint" href="direction_xsd.html#CompassPoint" coords="275,166,406,190" />
+                                 <area alt="direction_xsd.tmp#DirectionPropertyType_DirectionKeyword" href="direction_xsd.html#DirectionPropertyType_DirectionKeyword" coords="275,200,401,224" />
+                                 <area alt="direction_xsd.tmp#DirectionPropertyType_DirectionString" href="direction_xsd.html#DirectionPropertyType_DirectionString" coords="275,234,387,258" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_DirectionPropertyType" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_DirectionPropertyType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_DirectionPropertyType" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Elements </td>
+                                    <td><b><a href="dynamicFeature_xsd.html#MovingObjectStatusType_bearing" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for dynamicFeature.xsd')">gml:MovingObjectStatusType/gml:bearing</a></b>, <b><a href="direction_xsd.html#direction" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:direction</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_DirectionPropertyType" type="image" src="img/btM.gif" value="-" onclick="switchState('model_DirectionPropertyType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_DirectionPropertyType" style="display:block"><b><a href="direction_xsd.html#DirectionVector" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionVector</a></b> | <b><a href="direction_xsd.html#CompassPoint" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:CompassPoint</a></b> | <b><a href="direction_xsd.html#DirectionPropertyType_DirectionKeyword" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionKeyword</a></b> | <b><a href="direction_xsd.html#DirectionPropertyType_DirectionString" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionString</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="direction_xsd.html#CompassPoint" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:CompassPoint</a></b>, <b><a href="direction_xsd.html#DirectionPropertyType_DirectionKeyword" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionKeyword</a></b>, <b><a href="direction_xsd.html#DirectionPropertyType_DirectionString" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionString</a></b>, <b><a href="direction_xsd.html#DirectionVector" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionVector</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_DirectionPropertyType" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_DirectionPropertyType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_DirectionPropertyType" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Fixed</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="gmlBase_xsd.html#remoteSchema" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for gmlBase.xsd')">gml:remoteSchema</a></b></td>
+                                    <td><b>anyURI</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Reference to an XML Schema fragment that specifies the content model of the propertys value. This is in conformance with the XML Schema Section 4.14 Referencing Schemas from Elsewhere.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#actuate" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:actuate</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#actuateType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:actuateType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#arcrole" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcrole</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#arcroleType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcroleType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#href" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:href</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#hrefType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:hrefType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#role" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:role</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#roleType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:roleType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#show" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:show</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#showType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:showType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#title" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:title</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#titleAttrType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:titleAttrType</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#type" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:type</a></b></td>
+                                    <td><b><a href="xlink_xsd.html#typeType" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:typeType</a></b></td>
+                                    <td>simple</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_DirectionPropertyType" type="image" src="img/btM.gif" value="-" onclick="switchState('source_DirectionPropertyType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_DirectionPropertyType" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;complexType</span><span class="tAN"> name=</span><span class="tAV">"DirectionPropertyType"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;documentation</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;choice</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;element</span><span class="tAN"> ref=</span><span class="tAV">"gml:DirectionVector"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;element</span><span class="tAN"> ref=</span><span class="tAV">"gml:CompassPoint"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;element</span><span class="tAN"> name=</span><span class="tAV">"DirectionKeyword"</span><span class="tAN"> type=</span><span class="tAV">"gml:CodeType"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;element</span><span class="tAN"> name=</span><span class="tAV">"DirectionString"</span><span class="tAN"> type=</span><span class="tAV">"gml:StringOrRefType"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/choice&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"gml:AssociationAttributeGroup"</span><span class="tEl">/&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/complexType&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="DirectionVectorType"></a><div class="componentTitle">Complex Type <span class="qname">gml:DirectionVectorType</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.opengis.net/gml</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_DirectionVectorType" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_DirectionVectorType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_DirectionVectorType" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Direction expressed as a vector, either using components, or using angles.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_DirectionVectorType" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_DirectionVectorType');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_DirectionVectorType" style="display:block"><img alt="Diagram" border="0" src="img/direction_xsd_Complex_Type_gml_DirectionVectorType.jpeg" usemap="#direction_xsd_Complex_Type_gml_DirectionVectorType" /><map name="direction_xsd_Complex_Type_gml_DirectionVectorType" id="direction_xsd_Complex_Type_gml_DirectionVectorType">
+                                 <area alt="geometryBasic0d1d_xsd.tmp#vector" href="geometryBasic0d1d_xsd.html#vector" coords="284,0,372,24" />
+                                 <area alt="direction_xsd.tmp#DirectionVectorType_horizontalAngle" href="direction_xsd.html#DirectionVectorType_horizontalAngle" coords="355,34,472,58" />
+                                 <area alt="direction_xsd.tmp#DirectionVectorType_verticalAngle" href="direction_xsd.html#DirectionVectorType_verticalAngle" coords="355,68,456,92" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_DirectionVectorType" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_DirectionVectorType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_DirectionVectorType" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="direction_xsd.html#DirectionVector" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:DirectionVector</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_DirectionVectorType" type="image" src="img/btM.gif" value="-" onclick="switchState('model_DirectionVectorType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_DirectionVectorType" style="display:block"><b><a href="geometryBasic0d1d_xsd.html#vector" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for geometryBasic0d1d.xsd')">gml:vector</a></b> | (<b><a href="direction_xsd.html#DirectionVectorType_horizontalAngle" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:horizontalAngle</a></b> , <b><a href="direction_xsd.html#DirectionVectorType_verticalAngle" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:verticalAngle</a></b>)
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="direction_xsd.html#DirectionVectorType_horizontalAngle" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:horizontalAngle</a></b>, <b><a href="geometryBasic0d1d_xsd.html#vector" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for geometryBasic0d1d.xsd')">gml:vector</a></b>, <b><a href="direction_xsd.html#DirectionVectorType_verticalAngle" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:verticalAngle</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_DirectionVectorType" type="image" src="img/btM.gif" value="-" onclick="switchState('source_DirectionVectorType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_DirectionVectorType" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;complexType</span><span class="tAN"> name=</span><span class="tAV">"DirectionVectorType"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Direction expressed as a vector, either using components, or using angles.</span><span class="tEl">&lt;/documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;choice</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;element</span><span class="tAN"> ref=</span><span class="tAV">"gml:vector"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;sequence</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;element</span><span class="tAN"> name=</span><span class="tAV">"horizontalAngle"</span><span class="tAN"> type=</span><span class="tAV">"gml:AngleType"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;element</span><span class="tAN"> name=</span><span class="tAV">"verticalAngle"</span><span class="tAN"> type=</span><span class="tAV">"gml:AngleType"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/sequence&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/choice&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/complexType&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="CompassPointEnumeration"></a><div class="componentTitle">Simple Type <span class="qname">gml:CompassPointEnumeration</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.opengis.net/gml</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_CompassPointEnumeration" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_CompassPointEnumeration');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_CompassPointEnumeration" style="display:block"><img alt="Diagram" border="0" src="img/direction_xsd_Simple_Type_gml_CompassPointEnumeration.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_CompassPointEnumeration" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_CompassPointEnumeration');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_CompassPointEnumeration" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>N</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NNE</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NE</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ENE</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>E</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ESE</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>SE</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>SSE</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>S</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>SSW</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>SW</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>WSW</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>W</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>WNW</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NW</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NNW</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_CompassPointEnumeration" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_CompassPointEnumeration');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_CompassPointEnumeration" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="direction_xsd.html#CompassPoint" target="mainFrame" title="http://www.opengis.net/gml" onclick="updatePageTitle('Schema documentation for direction.xsd')">gml:CompassPoint</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_CompassPointEnumeration" type="image" src="img/btM.gif" value="-" onclick="switchState('source_CompassPointEnumeration');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_CompassPointEnumeration" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;simpleType</span><span class="tAN"> name=</span><span class="tAV">"CompassPointEnumeration"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;restriction</span><span class="tAN"> base=</span><span class="tAV">"string"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"N"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"NNE"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"NE"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"ENE"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"E"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"ESE"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"SE"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"SSE"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"S"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"SSW"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"SW"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"WSW"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"W"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"WNW"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"NW"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"NNW"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/restriction&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/simpleType&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Developer.
+         </div>
+      </div><script type="text/javascript">
+         <!--
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                //--></script></body>
+</html>

@@ -1,0 +1,93 @@
+<?xml-stylesheet type='text/xsl' href='./CodelistDictionary-v32.xsl'?><Dictionary xmlns="http://www.opengis.net/gml" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="CityfeatureCode" xsi:schemaLocation="http://www.opengis.net/gml null">
+  <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE">CityfeatureCode</identifier>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11938">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">Bridge</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11939">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">BridgePart</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11940">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">Building</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11941">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">BuildingPart</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11942">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">CityFurniture</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11943">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">GenericCityObject</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11945">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">MassPointRelief</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11946">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">RasterRelief</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11947">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">TINRelief</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11948">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">Road</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11949">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">Railway</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11950">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">Square</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11951">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">Track</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11952">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">Tunnel</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11953">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">TunnelPart</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11954">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">PlantCover</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11955">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">SolitaryVegetationObject</identifier>
+    </Definition>
+  </dictionaryEntry>
+  <dictionaryEntry>
+    <Definition gml:id="_9169_11956">
+      <identifier codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/CityfeatureCode">WaterBody</identifier>
+    </Definition>
+  </dictionaryEntry>
+</Dictionary>
