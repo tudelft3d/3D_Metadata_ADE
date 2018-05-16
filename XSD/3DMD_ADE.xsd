@@ -247,8 +247,8 @@
           <element name="ISOmetadata" type="md:ISOidentifierPropertyType"/>
           <element name="semanticsMetadata" type="md:_SemanticsPropertyType"/>
           <element name="appearanceMetadata" type="md:_AppearancesPropertyType"/>
-          <element maxOccurs="unbounded" name="CityfeatureMetadata" type="md:CityfeatureIdentifierPropertyType"/>
-          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="CityfeatureMetadata" type="md:CityfeatureIdentifierPropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="LevelsOfDetail" type="md:_LODPropertyType"/>
           <element maxOccurs="unbounded" minOccurs="0" name="LanduseMetadata" type="md:LanduseIdentifierPropertyType"/>
           <element maxOccurs="unbounded" minOccurs="0" name="TerrainMetadata" type="md:TerrainIdentifierPropertyType"/>
         </sequence>
