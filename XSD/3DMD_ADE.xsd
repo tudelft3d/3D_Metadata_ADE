@@ -67,7 +67,7 @@
           <element name="cityfeatureType" type="gml:CodeType"/>
           <element name="featureCount" type="integer"/>
           <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
-          <element maxOccurs="unbounded" name="CitySubfeatureMetadata" type="md:CitySubfeaturePropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="CitySubfeatureMetadata" type="md:CitySubfeaturePropertyType"/>
         </sequence>
       </extension>
     </complexContent>
@@ -249,8 +249,8 @@
           <element name="appearanceMetadata" type="md:_AppearancesPropertyType"/>
           <element maxOccurs="unbounded" name="CityfeatureMetadata" type="md:CityfeatureIdentifierPropertyType"/>
           <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
-          <element maxOccurs="unbounded" name="LanduseMetadata" type="md:LanduseIdentifierPropertyType"/>
-          <element maxOccurs="unbounded" name="TerrainMetadata" type="md:TerrainIdentifierPropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="LanduseMetadata" type="md:LanduseIdentifierPropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="TerrainMetadata" type="md:TerrainIdentifierPropertyType"/>
         </sequence>
       </extension>
     </complexContent>
