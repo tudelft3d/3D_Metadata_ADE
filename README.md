@@ -12,7 +12,7 @@ The **UML model** of the 3D Metadata ADE was created using Enterprise Architect.
 - This [Enterprise Architect file](https://github.com/tudelft3d/3D_Metadata_ADE/blob/master/UML/CityGML_3DMD_ADE_0_2.eap) contains the UML model.
 - The UML diagrams can be downloaded in [PDF format](https://github.com/tudelft3d/3D_Metadata_ADE/blob/master/UML/UML_Diagrams.pdf) as well.
 
-The **XML Schema files** of the 3D Metadata ADE was derived automatically from the UML model using ShapeChange(http://shapechange.net/).  
+The **XML Schema file and codelists** of the 3D Metadata ADE were derived automatically from the UML model using ShapeChange(http://shapechange.net/).  
 - This is the derived [XML Schema file](https://github.com/tudelft3d/3D_Metadata_ADE/blob/master/XSD/3DMD_ADE.xsd) for 3DMD ADE.
 - Browsable schema for the ADE can be accessed [here](https://github.com/tudelft3d/3D_Metadata_ADE/tree/master/Documentation/BrowsableSchema).
 - Codelists can be accessed here [Codelists](https://github.com/tudelft3d/3D_Metadata_ADE/tree/master/XSD/codelists).
