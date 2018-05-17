@@ -2,6 +2,8 @@
 # CityGML 3D Metadata ADE
 
 CityGML extension for modelling metadata related to 3D city models.
+This ADE contains ISO 19115 compliant elements dervied from the *Metadata for the discovery of geographic datasets and series* table (Table F.1 in the ISO 19115:2014 documentation).
+This ADE also contains 3D specific information such as the levels of details, thematic models, semantics, textures, materials and process of model aquisition. 
 
 
 # Resources
