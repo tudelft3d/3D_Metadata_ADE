@@ -41,43 +41,6 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="CitySubfeature" substitutionGroup="gml:_Feature" type="md:CitySubfeatureType"/>
-  <complexType name="CitySubfeatureType">
-    <complexContent>
-      <extension base="gml:AbstractFeatureType">
-        <sequence>
-          <element name="citySubfeatureType" type="gml:CodeType"/>
-          <element name="citySubfeatureCount" type="integer"/>
-          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
-        </sequence>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="CitySubfeaturePropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:CitySubfeature"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
-  <element name="CityfeatureIdentifier" substitutionGroup="md:_MetadataObjects" type="md:CityfeatureIdentifierType"/>
-  <complexType name="CityfeatureIdentifierType">
-    <complexContent>
-      <extension base="md:_MetadataObjectsType">
-        <sequence>
-          <element name="cityfeatureType" type="gml:CodeType"/>
-          <element name="featureCount" type="integer"/>
-          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
-          <element maxOccurs="unbounded" minOccurs="0" name="CitySubfeatureMetadata" type="md:CitySubfeaturePropertyType"/>
-        </sequence>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="CityfeatureIdentifierPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:CityfeatureIdentifier"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
   <element name="ISOidentifier" substitutionGroup="md:_MetadaHelperClasses" type="md:ISOidentifierType"/>
   <complexType name="ISOidentifierType">
     <complexContent>
@@ -184,25 +147,6 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="LanduseIdentifier" substitutionGroup="md:_MetadataObjects" type="md:LanduseIdentifierType"/>
-  <complexType name="LanduseIdentifierType">
-    <complexContent>
-      <extension base="md:_MetadataObjectsType">
-        <sequence>
-          <element name="landuseClass" type="gml:CodeType"/>
-          <element name="landuseFunction" type="gml:CodeType"/>
-          <element name="landuseUsage" type="gml:CodeType"/>
-          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
-        </sequence>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="LanduseIdentifierPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:LanduseIdentifier"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
   <element name="LevelOfDetail" substitutionGroup="md:_LOD" type="md:LevelOfDetailType"/>
   <complexType name="LevelOfDetailType">
     <complexContent>
@@ -237,6 +181,43 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
+  <element name="MDcitySubfeature" substitutionGroup="gml:_Feature" type="md:MDcitySubfeatureType"/>
+  <complexType name="MDcitySubfeatureType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType">
+        <sequence>
+          <element name="citySubfeatureType" type="gml:CodeType"/>
+          <element name="citySubfeatureCount" type="integer"/>
+          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDcitySubfeaturePropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDcitySubfeature"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="MDcityfeature" substitutionGroup="md:_MetadataObjects" type="md:MDcityfeatureType"/>
+  <complexType name="MDcityfeatureType">
+    <complexContent>
+      <extension base="md:_MetadataObjectsType">
+        <sequence>
+          <element name="cityfeatureType" type="gml:CodeType"/>
+          <element name="featureCount" type="integer"/>
+          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="CitySubfeatureMetadata" type="md:MDcitySubfeaturePropertyType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDcityfeaturePropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDcityfeature"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
   <element name="MDcitymodel" substitutionGroup="md:_MetadataObjects" type="md:MDcitymodelType"/>
   <complexType name="MDcitymodelType">
     <complexContent>
@@ -247,10 +228,10 @@
           <element name="ISOmetadata" type="md:ISOidentifierPropertyType"/>
           <element name="semanticsMetadata" type="md:_SemanticsPropertyType"/>
           <element name="appearanceMetadata" type="md:_AppearancesPropertyType"/>
-          <element maxOccurs="unbounded" minOccurs="0" name="CityfeatureMetadata" type="md:CityfeatureIdentifierPropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="CityfeatureMetadata" type="md:MDcityfeaturePropertyType"/>
           <element maxOccurs="unbounded" minOccurs="0" name="LevelsOfDetail" type="md:_LODPropertyType"/>
-          <element maxOccurs="unbounded" minOccurs="0" name="LanduseMetadata" type="md:LanduseIdentifierPropertyType"/>
-          <element maxOccurs="unbounded" minOccurs="0" name="TerrainMetadata" type="md:TerrainIdentifierPropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="LanduseMetadata" type="md:MDlandusePropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="TerrainMetadata" type="md:MDterrainPropertyType"/>
         </sequence>
       </extension>
     </complexContent>
@@ -258,6 +239,44 @@
   <complexType name="MDcitymodelPropertyType">
     <sequence minOccurs="0">
       <element ref="md:MDcitymodel"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="MDlanduse" substitutionGroup="md:_MetadataObjects" type="md:MDlanduseType"/>
+  <complexType name="MDlanduseType">
+    <complexContent>
+      <extension base="md:_MetadataObjectsType">
+        <sequence>
+          <element name="landuseClass" type="gml:CodeType"/>
+          <element name="landuseFunction" type="gml:CodeType"/>
+          <element name="landuseUsage" type="gml:CodeType"/>
+          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDlandusePropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDlanduse"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="MDterrain" substitutionGroup="md:_MetadataObjects" type="md:MDterrainType"/>
+  <complexType name="MDterrainType">
+    <complexContent>
+      <extension base="md:_MetadataObjectsType">
+        <sequence>
+          <element name="terrainType" type="gml:CodeType"/>
+          <element name="terrainCount" type="integer"/>
+          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
+          <element minOccurs="0" name="TerrainProperties" type="md:_TerrainPropertiesPropertyType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDterrainPropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDterrain"/>
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
@@ -380,25 +399,6 @@
   <complexType name="TINpropertiesPropertyType">
     <sequence minOccurs="0">
       <element ref="md:TINproperties"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
-  <element name="TerrainIdentifier" substitutionGroup="md:_MetadataObjects" type="md:TerrainIdentifierType"/>
-  <complexType name="TerrainIdentifierType">
-    <complexContent>
-      <extension base="md:_MetadataObjectsType">
-        <sequence>
-          <element name="terrainType" type="gml:CodeType"/>
-          <element name="terrainCount" type="integer"/>
-          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
-          <element minOccurs="0" name="TerrainProperties" type="md:_TerrainPropertiesPropertyType"/>
-        </sequence>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="TerrainIdentifierPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:TerrainIdentifier"/>
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
