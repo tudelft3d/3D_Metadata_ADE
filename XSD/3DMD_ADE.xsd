@@ -25,19 +25,21 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="BreaklineProperties" substitutionGroup="md:_TerrainProperties" type="md:BreaklinePropertiesType"/>
-  <complexType name="BreaklinePropertiesType">
+  <element name="ConstraintsOnUsage" substitutionGroup="gml:_GML" type="md:ConstraintsOnUsageType"/>
+  <complexType name="ConstraintsOnUsageType">
     <complexContent>
-      <extension base="md:_TerrainPropertiesType">
+      <extension base="gml:AbstractGMLType">
         <sequence>
-          <element name="lineCount" type="integer"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="legalConstraints" type="gml:CodeType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="securityConstraints" type="gml:CodeType"/>
+          <element minOccurs="0" name="userNote" type="string"/>
         </sequence>
       </extension>
     </complexContent>
   </complexType>
-  <complexType name="BreaklinePropertiesPropertyType">
+  <complexType name="ConstraintsOnUsagePropertyType">
     <sequence minOccurs="0">
-      <element ref="md:BreaklineProperties"/>
+      <element ref="md:ConstraintsOnUsage"/>
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
@@ -78,7 +80,7 @@
           <element name="abstract" type="string"/>
           <element name="specificUsage" type="string"/>
           <element name="keywords" type="string"/>
-          <element minOccurs="0" name="constraints" type="md:constraintsOnUsagePropertyType"/>
+          <element minOccurs="0" name="constraints" type="md:ConstraintsOnUsagePropertyType"/>
         </sequence>
       </extension>
     </complexContent>
@@ -131,26 +133,10 @@
       <enumeration value="4"/>
     </restriction>
   </simpleType>
-  <element name="LODpresent" substitutionGroup="md:_LOD" type="md:LODpresentType"/>
-  <complexType name="LODpresentType">
-    <complexContent>
-      <extension base="md:_LODType">
-        <sequence>
-          <element maxOccurs="unbounded" name="lod" type="md:LODcodeType"/>
-        </sequence>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="LODpresentPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:LODpresent"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
-  <element name="LevelOfDetail" substitutionGroup="md:_LOD" type="md:LevelOfDetailType"/>
+  <element name="LevelOfDetail" substitutionGroup="md:_MetadaHelperClasses" type="md:LevelOfDetailType"/>
   <complexType name="LevelOfDetailType">
     <complexContent>
-      <extension base="md:_LODType">
+      <extension base="md:_MetadaHelperClassesType">
         <sequence>
           <element name="lod" type="md:LODcodeType"/>
           <element name="objectCount" type="integer"/>
@@ -164,10 +150,10 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="Lineage" substitutionGroup="md:_MetadaHelperClasses" type="md:LineageType"/>
+  <element name="Lineage" substitutionGroup="gml:_GML" type="md:LineageType"/>
   <complexType name="LineageType">
     <complexContent>
-      <extension base="md:_MetadaHelperClassesType">
+      <extension base="gml:AbstractGMLType">
         <sequence>
           <element minOccurs="0" name="source" type="string"/>
           <element maxOccurs="unbounded" minOccurs="0" name="processStep" type="string"/>
@@ -181,57 +167,154 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="MDcitySubfeature" substitutionGroup="gml:_Feature" type="md:MDcitySubfeatureType"/>
-  <complexType name="MDcitySubfeatureType">
+  <element name="MDBreaklineRelief" substitutionGroup="md:_TerrainProperties" type="md:MDBreaklineReliefType"/>
+  <complexType name="MDBreaklineReliefType">
     <complexContent>
-      <extension base="gml:AbstractFeatureType">
+      <extension base="md:_TerrainPropertiesType">
         <sequence>
-          <element name="citySubfeatureType" type="gml:CodeType"/>
-          <element name="citySubfeatureCount" type="integer"/>
-          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
+          <element name="lineCount" type="integer"/>
         </sequence>
       </extension>
     </complexContent>
   </complexType>
-  <complexType name="MDcitySubfeaturePropertyType">
+  <complexType name="MDBreaklineReliefPropertyType">
     <sequence minOccurs="0">
-      <element ref="md:MDcitySubfeature"/>
+      <element ref="md:MDBreaklineRelief"/>
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="MDcityfeature" substitutionGroup="md:_MetadataObjects" type="md:MDcityfeatureType"/>
-  <complexType name="MDcityfeatureType">
+  <element name="MDMasspointRelief" substitutionGroup="md:_TerrainProperties" type="md:MDMasspointReliefType"/>
+  <complexType name="MDMasspointReliefType">
     <complexContent>
-      <extension base="md:_MetadataObjectsType">
+      <extension base="md:_TerrainPropertiesType">
         <sequence>
-          <element name="cityfeatureType" type="gml:CodeType"/>
-          <element name="featureCount" type="integer"/>
-          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
-          <element maxOccurs="unbounded" minOccurs="0" name="CitySubfeatureMetadata" type="md:MDcitySubfeaturePropertyType"/>
+          <element name="pointCount" type="integer"/>
         </sequence>
       </extension>
     </complexContent>
   </complexType>
-  <complexType name="MDcityfeaturePropertyType">
+  <complexType name="MDMasspointReliefPropertyType">
     <sequence minOccurs="0">
-      <element ref="md:MDcityfeature"/>
+      <element ref="md:MDMasspointRelief"/>
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="MDcitymodel" substitutionGroup="md:_MetadataObjects" type="md:MDcitymodelType"/>
+  <element name="MDRasterRelief" substitutionGroup="md:_TerrainProperties" type="md:MDRasterReliefType"/>
+  <complexType name="MDRasterReliefType">
+    <complexContent>
+      <extension base="md:_TerrainPropertiesType">
+        <sequence>
+          <element name="extent">
+            <complexType>
+              <sequence minOccurs="0">
+                <element ref="gml:Envelope"/>
+              </sequence>
+              <attributeGroup ref="gml:AssociationAttributeGroup"/>
+            </complexType>
+          </element>
+          <element name="resolution" type="gml:MeasureType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDRasterReliefPropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDRasterRelief"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="MDTINRelief" substitutionGroup="md:_TerrainProperties" type="md:MDTINReliefType"/>
+  <complexType name="MDTINReliefType">
+    <complexContent>
+      <extension base="md:_TerrainPropertiesType">
+        <sequence>
+          <element name="triangleCount" type="integer"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDTINReliefPropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDTINRelief"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="MDbridge" substitutionGroup="md:_MetadataCityfeatures" type="md:MDbridgeType"/>
+  <complexType name="MDbridgeType">
+    <complexContent>
+      <extension base="md:_MetadataCityfeaturesType">
+        <sequence>
+          <element name="bridgeParts" type="integer"/>
+          <element name="bridgeInstallations" type="integer"/>
+          <element name="bridgeConstructionElements" type="integer"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDbridgePropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDbridge"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="MDbuilding" substitutionGroup="md:_MetadataCityfeatures" type="md:MDbuildingType"/>
+  <complexType name="MDbuildingType">
+    <complexContent>
+      <extension base="md:_MetadataCityfeaturesType">
+        <sequence>
+          <element name="buildingParts" type="integer"/>
+          <element name="buildingInstallations" type="integer"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDbuildingPropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDbuilding"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="MDcityFurniture" substitutionGroup="md:_MetadataCityfeatures" type="md:MDcityFurnitureType"/>
+  <complexType name="MDcityFurnitureType">
+    <complexContent>
+      <extension base="md:_MetadataCityfeaturesType">
+        <sequence/>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDcityFurniturePropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDcityFurniture"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="MDcityObjectGroup" substitutionGroup="md:_MetadataCityfeatures" type="md:MDcityObjectGroupType"/>
+  <complexType name="MDcityObjectGroupType">
+    <complexContent>
+      <extension base="md:_MetadataCityfeaturesType">
+        <sequence/>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDcityObjectGroupPropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDcityObjectGroup"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="MDcitymodel" substitutionGroup="md:_MetadataModule" type="md:MDcitymodelType"/>
   <complexType name="MDcitymodelType">
     <complexContent>
-      <extension base="md:_MetadataObjectsType">
+      <extension base="md:_MetadataModuleType">
         <sequence>
-          <element name="citymodelIdentifier" type="ID"/>
+          <element minOccurs="0" name="citymodelIdentifier" type="ID"/>
+          <element minOccurs="0" name="ISOmetadata" type="md:ISOidentifierPropertyType"/>
+          <element minOccurs="0" name="thematicModels" type="md:presentThematicModelsPropertyType"/>
+          <element minOccurs="0" name="textures" type="md:StateCodeType"/>
+          <element minOccurs="0" name="materials" type="md:StateCodeType"/>
           <element maxOccurs="unbounded" minOccurs="0" name="ADEmetadata" type="md:ADEidentifierPropertyType"/>
-          <element name="ISOmetadata" type="md:ISOidentifierPropertyType"/>
-          <element name="semanticsMetadata" type="md:_SemanticsPropertyType"/>
-          <element name="appearanceMetadata" type="md:_AppearancesPropertyType"/>
-          <element maxOccurs="unbounded" minOccurs="0" name="CityfeatureMetadata" type="md:MDcityfeaturePropertyType"/>
-          <element maxOccurs="unbounded" minOccurs="0" name="LevelsOfDetail" type="md:_LODPropertyType"/>
-          <element maxOccurs="unbounded" minOccurs="0" name="LanduseMetadata" type="md:MDlandusePropertyType"/>
-          <element maxOccurs="unbounded" minOccurs="0" name="TerrainMetadata" type="md:MDterrainPropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="MDcityfeatures" type="md:_MetadataCityfeaturesPropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="LevelsOfDetail" type="md:LevelOfDetailPropertyType"/>
         </sequence>
       </extension>
     </complexContent>
@@ -242,16 +325,25 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="MDlanduse" substitutionGroup="md:_MetadataObjects" type="md:MDlanduseType"/>
+  <element name="MDgenerics" substitutionGroup="md:_MetadataCityfeatures" type="md:MDgenericsType"/>
+  <complexType name="MDgenericsType">
+    <complexContent>
+      <extension base="md:_MetadataCityfeaturesType">
+        <sequence/>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDgenericsPropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDgenerics"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="MDlanduse" substitutionGroup="md:_MetadataCityfeatures" type="md:MDlanduseType"/>
   <complexType name="MDlanduseType">
     <complexContent>
-      <extension base="md:_MetadataObjectsType">
-        <sequence>
-          <element name="landuseClass" type="gml:CodeType"/>
-          <element name="landuseFunction" type="gml:CodeType"/>
-          <element name="landuseUsage" type="gml:CodeType"/>
-          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
-        </sequence>
+      <extension base="md:_MetadataCityfeaturesType">
+        <sequence/>
       </extension>
     </complexContent>
   </complexType>
@@ -261,14 +353,12 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="MDterrain" substitutionGroup="md:_MetadataObjects" type="md:MDterrainType"/>
+  <element name="MDterrain" substitutionGroup="md:_MetadataCityfeatures" type="md:MDterrainType"/>
   <complexType name="MDterrainType">
     <complexContent>
-      <extension base="md:_MetadataObjectsType">
+      <extension base="md:_MetadataCityfeaturesType">
         <sequence>
-          <element name="terrainType" type="gml:CodeType"/>
-          <element name="terrainCount" type="integer"/>
-          <element maxOccurs="unbounded" name="LevelsOfDetail" type="md:_LODPropertyType"/>
+          <element name="terrainType" type="md:TerrainTypeCodeType"/>
           <element minOccurs="0" name="TerrainProperties" type="md:_TerrainPropertiesPropertyType"/>
         </sequence>
       </extension>
@@ -280,33 +370,70 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="MasspointProperties" substitutionGroup="md:_TerrainProperties" type="md:MasspointPropertiesType"/>
-  <complexType name="MasspointPropertiesType">
+  <element name="MDtransportation" substitutionGroup="md:_MetadataCityfeatures" type="md:MDtransportationType"/>
+  <complexType name="MDtransportationType">
     <complexContent>
-      <extension base="md:_TerrainPropertiesType">
+      <extension base="md:_MetadataCityfeaturesType">
         <sequence>
-          <element name="pointCount" type="integer"/>
+          <element name="roads" type="integer"/>
+          <element name="railways" type="integer"/>
+          <element name="tracks" type="integer"/>
+          <element name="squares" type="integer"/>
         </sequence>
       </extension>
     </complexContent>
   </complexType>
-  <complexType name="MasspointPropertiesPropertyType">
+  <complexType name="MDtransportationPropertyType">
     <sequence minOccurs="0">
-      <element ref="md:MasspointProperties"/>
+      <element ref="md:MDtransportation"/>
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="Materials" substitutionGroup="md:_Appearances" type="md:MaterialsType"/>
-  <complexType name="MaterialsType">
+  <element name="MDtunnel" substitutionGroup="md:_MetadataCityfeatures" type="md:MDtunnelType"/>
+  <complexType name="MDtunnelType">
     <complexContent>
-      <extension base="md:_AppearancesType">
+      <extension base="md:_MetadataCityfeaturesType">
+        <sequence>
+          <element name="tunnelParts" type="integer"/>
+          <element name="tunnelInstallations" type="integer"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDtunnelPropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDtunnel"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="MDvegetation" substitutionGroup="md:_MetadataCityfeatures" type="md:MDvegetationType"/>
+  <complexType name="MDvegetationType">
+    <complexContent>
+      <extension base="md:_MetadataCityfeaturesType">
+        <sequence>
+          <element name="plantCovers" type="integer"/>
+          <element name="solitaryVegetationObjects" type="integer"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MDvegetationPropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:MDvegetation"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="MDwaterBody" substitutionGroup="md:_MetadataCityfeatures" type="md:MDwaterBodyType"/>
+  <complexType name="MDwaterBodyType">
+    <complexContent>
+      <extension base="md:_MetadataCityfeaturesType">
         <sequence/>
       </extension>
     </complexContent>
   </complexType>
-  <complexType name="MaterialsPropertyType">
+  <complexType name="MDwaterBodyPropertyType">
     <sequence minOccurs="0">
-      <element ref="md:Materials"/>
+      <element ref="md:MDwaterBody"/>
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
@@ -326,112 +453,35 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="RasterProperties" substitutionGroup="md:_TerrainProperties" type="md:RasterPropertiesType"/>
-  <complexType name="RasterPropertiesType">
-    <complexContent>
-      <extension base="md:_TerrainPropertiesType">
-        <sequence>
-          <element name="extent">
-            <complexType>
-              <sequence minOccurs="0">
-                <element ref="gml:Envelope"/>
-              </sequence>
-              <attributeGroup ref="gml:AssociationAttributeGroup"/>
-            </complexType>
-          </element>
-          <element name="resolution" type="gml:MeasureType"/>
-        </sequence>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="RasterPropertiesPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:RasterProperties"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
-  <element name="SemanticIdentifier" substitutionGroup="md:_Semantics" type="md:SemanticIdentifierType"/>
-  <complexType name="SemanticIdentifierType">
-    <complexContent>
-      <extension base="md:_SemanticsType">
-        <sequence>
-          <element maxOccurs="unbounded" name="semanticClass" type="string"/>
-        </sequence>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="SemanticIdentifierPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:SemanticIdentifier"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
-  <element name="Semantics" substitutionGroup="md:_Semantics" type="md:SemanticsType"/>
-  <complexType name="SemanticsType">
-    <complexContent>
-      <extension base="md:_SemanticsType">
-        <sequence/>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="SemanticsPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:Semantics"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
   <simpleType name="StateCodeType">
     <restriction base="string">
       <enumeration value="present"/>
       <enumeration value="absent"/>
     </restriction>
   </simpleType>
-  <element name="TINproperties" substitutionGroup="md:_TerrainProperties" type="md:TINpropertiesType"/>
-  <complexType name="TINpropertiesType">
-    <complexContent>
-      <extension base="md:_TerrainPropertiesType">
-        <sequence>
-          <element name="triangleCount" type="integer"/>
-        </sequence>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="TINpropertiesPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:TINproperties"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
-  <element name="Textures" substitutionGroup="md:_Appearances" type="md:TexturesType"/>
-  <complexType name="TexturesType">
-    <complexContent>
-      <extension base="md:_AppearancesType">
-        <sequence/>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="TexturesPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:Textures"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
-  <element abstract="true" name="_Appearances" substitutionGroup="md:_MetadaHelperClasses" type="md:_AppearancesType"/>
-  <complexType abstract="true" name="_AppearancesType">
-    <complexContent>
-      <extension base="md:_MetadaHelperClassesType">
-        <sequence>
-          <element name="state" type="md:StateCodeType"/>
-        </sequence>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="_AppearancesPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:_Appearances"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
+  <simpleType name="TerrainTypeCodeType">
+    <restriction base="string">
+      <enumeration value="TINRelief"/>
+      <enumeration value="RasterRelief"/>
+      <enumeration value="MassPointRelief"/>
+      <enumeration value="BreaklineRelief"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="ThematicModelCodeType">
+    <restriction base="string">
+      <enumeration value="Bridge"/>
+      <enumeration value="Building"/>
+      <enumeration value="CityFurniture"/>
+      <enumeration value="CityObjectGroup"/>
+      <enumeration value="Generics"/>
+      <enumeration value="LandUse"/>
+      <enumeration value="Relief"/>
+      <enumeration value="Transportation"/>
+      <enumeration value="Tunnel"/>
+      <enumeration value="Vegetation"/>
+      <enumeration value="WaterBody"/>
+    </restriction>
+  </simpleType>
   <element abstract="true" name="_Contact" substitutionGroup="md:_MetadaHelperClasses" type="md:_ContactType"/>
   <complexType abstract="true" name="_ContactType">
     <complexContent>
@@ -451,20 +501,6 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element abstract="true" name="_LOD" substitutionGroup="md:_MetadaHelperClasses" type="md:_LODType"/>
-  <complexType abstract="true" name="_LODType">
-    <complexContent>
-      <extension base="md:_MetadaHelperClassesType">
-        <sequence/>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="_LODPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:_LOD"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
   <element abstract="true" name="_MetadaHelperClasses" substitutionGroup="md:_MetadataModule" type="md:_MetadaHelperClassesType"/>
   <complexType abstract="true" name="_MetadaHelperClassesType">
     <complexContent>
@@ -476,6 +512,24 @@
   <complexType name="_MetadaHelperClassesPropertyType">
     <sequence minOccurs="0">
       <element ref="md:_MetadaHelperClasses"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element abstract="true" name="_MetadataCityfeatures" substitutionGroup="md:_MetadataModule" type="md:_MetadataCityfeaturesType"/>
+  <complexType abstract="true" name="_MetadataCityfeaturesType">
+    <complexContent>
+      <extension base="md:_MetadataModuleType">
+        <sequence>
+          <element name="featureType" type="md:ThematicModelCodeType"/>
+          <element name="featureCount" type="integer"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="LevelsOfDetail" type="md:LevelOfDetailPropertyType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="_MetadataCityfeaturesPropertyType">
+    <sequence minOccurs="0">
+      <element ref="md:_MetadataCityfeatures"/>
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
@@ -493,36 +547,6 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element abstract="true" name="_MetadataObjects" substitutionGroup="md:_MetadataModule" type="md:_MetadataObjectsType"/>
-  <complexType abstract="true" name="_MetadataObjectsType">
-    <complexContent>
-      <extension base="md:_MetadataModuleType">
-        <sequence/>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="_MetadataObjectsPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:_MetadataObjects"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
-  <element abstract="true" name="_Semantics" substitutionGroup="md:_MetadaHelperClasses" type="md:_SemanticsType"/>
-  <complexType abstract="true" name="_SemanticsType">
-    <complexContent>
-      <extension base="md:_MetadaHelperClassesType">
-        <sequence>
-          <element name="state" type="md:StateCodeType"/>
-        </sequence>
-      </extension>
-    </complexContent>
-  </complexType>
-  <complexType name="_SemanticsPropertyType">
-    <sequence minOccurs="0">
-      <element ref="md:_Semantics"/>
-    </sequence>
-    <attributeGroup ref="gml:AssociationAttributeGroup"/>
-  </complexType>
   <element abstract="true" name="_TerrainProperties" substitutionGroup="gml:_Feature" type="md:_TerrainPropertiesType"/>
   <complexType abstract="true" name="_TerrainPropertiesType">
     <complexContent>
@@ -537,21 +561,19 @@
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
-  <element name="constraintsOnUsage" substitutionGroup="md:_MetadaHelperClasses" type="md:constraintsOnUsageType"/>
-  <complexType name="constraintsOnUsageType">
+  <element name="presentThematicModels" substitutionGroup="gml:_GML" type="md:presentThematicModelsType"/>
+  <complexType name="presentThematicModelsType">
     <complexContent>
-      <extension base="md:_MetadaHelperClassesType">
+      <extension base="gml:AbstractGMLType">
         <sequence>
-          <element maxOccurs="unbounded" minOccurs="0" name="legalConstraints" type="gml:CodeType"/>
-          <element minOccurs="0" name="securityConstraints" type="gml:CodeType"/>
-          <element minOccurs="0" name="userNote" type="string"/>
+          <element maxOccurs="unbounded" name="thematicModel" type="md:ThematicModelCodeType"/>
         </sequence>
       </extension>
     </complexContent>
   </complexType>
-  <complexType name="constraintsOnUsagePropertyType">
+  <complexType name="presentThematicModelsPropertyType">
     <sequence minOccurs="0">
-      <element ref="md:constraintsOnUsage"/>
+      <element ref="md:presentThematicModels"/>
     </sequence>
     <attributeGroup ref="gml:AssociationAttributeGroup"/>
   </complexType>
