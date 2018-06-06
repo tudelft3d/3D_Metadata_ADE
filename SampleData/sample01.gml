@@ -46,10 +46,16 @@
                     <md:datasetReferenceDate>2017-01-01</md:datasetReferenceDate>
                     <md:geoLocation>Delft</md:geoLocation>
                     <md:datasetLanguage>English</md:datasetLanguage>
-                    <md:datasetTopicCategory codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE//codelists/MDtopicCategory.xml">geoscientificInformation</md:datasetTopicCategory>
+                    <md:datasetTopicCategory 
+                        codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE//codelists/MDtopicCategory.xml">
+                        geoscientificInformation
+                    </md:datasetTopicCategory>
                     <md:datasetDescription>Metadata associated with the 3D city model</md:datasetDescription>
                     <md:distributionFormatVersion>CityGML 2.0</md:distributionFormatVersion>
-                    <md:spatialRepresentationType codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/codelists/MDspatialRepTypeCode.xml">Vector</md:spatialRepresentationType>
+                    <md:spatialRepresentationType 
+                        codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/codelists/MDspatialRepTypeCode.xml">
+                        Vector
+                    </md:spatialRepresentationType>
                     <md:referenceSystem>urn:ogc:def:crs,crs:EPSG:6.12:31466,crs:EPSG:6.12:5783</md:referenceSystem>
                     <md:temporalInformation>2017-01-02</md:temporalInformation>
                     <md:onlineResource>https://3d.bk.tudelft.nl/opendata/3dfier/</md:onlineResource>
@@ -149,7 +155,7 @@
                     <md:featureCount>100</md:featureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
-                            <md:lod>2</md:lod>
+                            <md:lod>1</md:lod>
                             <md:objectCount>100</md:objectCount>
                         </md:LevelOfDetail> 
                     </md:LevelsOfDetail>
@@ -164,7 +170,7 @@
                     <md:featureCount>100</md:featureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
-                            <md:lod>2</md:lod>
+                            <md:lod>1</md:lod>
                             <md:objectCount>100</md:objectCount>
                         </md:LevelOfDetail> 
                     </md:LevelsOfDetail>
@@ -178,7 +184,7 @@
                     <md:featureCount>100</md:featureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
-                            <md:lod>2</md:lod>
+                            <md:lod>1</md:lod>
                             <md:objectCount>100</md:objectCount>
                         </md:LevelOfDetail> 
                     </md:LevelsOfDetail>
@@ -192,7 +198,7 @@
                     <md:featureCount>100</md:featureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
-                            <md:lod>2</md:lod>
+                            <md:lod>1</md:lod>
                             <md:objectCount>100</md:objectCount>
                         </md:LevelOfDetail> 
                     </md:LevelsOfDetail>
@@ -208,7 +214,7 @@
                     <md:featureCount>100</md:featureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
-                            <md:lod>2</md:lod>
+                            <md:lod>1</md:lod>
                             <md:objectCount>100</md:objectCount>
                         </md:LevelOfDetail> 
                     </md:LevelsOfDetail>
@@ -220,7 +226,7 @@
                     <md:featureCount>100</md:featureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
-                            <md:lod>2</md:lod>
+                            <md:lod>1</md:lod>
                             <md:objectCount>100</md:objectCount>
                         </md:LevelOfDetail> 
                     </md:LevelsOfDetail>
@@ -244,7 +250,7 @@
                     <md:featureCount>100</md:featureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
-                            <md:lod>2</md:lod>
+                            <md:lod>1</md:lod>
                             <md:objectCount>100</md:objectCount>
                         </md:LevelOfDetail> 
                     </md:LevelsOfDetail>
@@ -256,7 +262,7 @@
                     <md:featureCount>100</md:featureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
-                            <md:lod>2</md:lod>
+                            <md:lod>1</md:lod>
                             <md:objectCount>100</md:objectCount>
                         </md:LevelOfDetail> 
                     </md:LevelsOfDetail>
@@ -340,6 +346,18 @@
                     </md:TerrainProperties>
                 </md:MDterrain>
             </md:MDcityfeatures>
+            <md:LevelsOfDetail>
+                <md:LevelOfDetail>
+                    <md:lod>1</md:lod>
+                    <md:objectCount>904</md:objectCount>
+                </md:LevelOfDetail>
+            </md:LevelsOfDetail>
+            <md:LevelsOfDetail>
+                <md:LevelOfDetail>
+                    <md:lod>2</md:lod>
+                    <md:objectCount>100</md:objectCount>
+                </md:LevelOfDetail> 
+            </md:LevelsOfDetail>
         </md:MDcitymodel>     
     </cityObjectMember>
 </CityModel>
