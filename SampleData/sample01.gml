@@ -27,18 +27,10 @@
     http://www.opengis.net/citygml/generics/2.0 http://schemas.opengis.net/citygml/generics/2.0/generics.xsd         
     http://www.opengis.net/citygml/cityobjectgroup/2.0 http://schemas.opengis.net/citygml/cityobjectgroup/2.0/cityObjectGroup.xsd
     http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE ../XSD/3DMD_ADE.xsd">
-
-    <gml:name>LOD1_451304</gml:name>
-    <gml:boundedBy>
-        <gml:Envelope srsName="urn:ogc:def:crs,crs:EPSG:6.12:31466,crs:EPSG:6.12:5783">
-            <gml:pos srsDimension="3">3423800.0 5705800.0 140.4</gml:pos>
-            <gml:pos srsDimension="3">3426200.0 5708200.0 252.6</gml:pos>
-        </gml:Envelope>
-    </gml:boundedBy>
-    
     
     <cityObjectMember>
         <md:MDcitymodel>
+            <md:metadataIdentifier>MD_3D_MM_12345</md:metadataIdentifier>
             <md:citymodelIdentifier>MM_12345</md:citymodelIdentifier>
             <md:ISOmetadata>
                 <md:ISOidentifier>
@@ -110,6 +102,7 @@
                     <md:thematicModel>CityFurniture</md:thematicModel>
                     <md:thematicModel>CityObjectGroup</md:thematicModel>
                     <md:thematicModel>Relief</md:thematicModel>
+                    <md:thematicModel>LandUse</md:thematicModel>
                 </md:presentThematicModels>
             </md:thematicModels>
             <md:textures>present</md:textures>

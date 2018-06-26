@@ -292,7 +292,9 @@
   <complexType name="MDcityObjectGroupType">
     <complexContent>
       <extension base="md:_MetadataCityfeaturesType">
-        <sequence/>
+        <sequence>
+          <element maxOccurs="unbounded" minOccurs="0" name="MDcityObjectGroupMember" type="md:_MetadataCityfeaturesPropertyType"/>
+        </sequence>
       </extension>
     </complexContent>
   </complexType>
@@ -307,6 +309,7 @@
     <complexContent>
       <extension base="md:_MetadataModuleType">
         <sequence>
+          <element name="metadataIdentifier" type="ID"/>
           <element minOccurs="0" name="citymodelIdentifier" type="ID"/>
           <element minOccurs="0" name="ISOmetadata" type="md:ISOidentifierPropertyType"/>
           <element minOccurs="0" name="thematicModels" type="md:presentThematicModelsPropertyType"/>
