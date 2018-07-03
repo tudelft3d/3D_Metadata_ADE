@@ -5,21 +5,37 @@ Created on Sun May 10 20:54:40 2018
 
 @author: kavisha
 """
+# Python3+ required
 
 import os
 from lxml import etree
 import time
 import uuid
+import argparse
+import getcityobjects
 
 try:
     to_unicode = unicode
 except NameError:
     to_unicode = str
 
-# get lod of the cityobject
-def getlod(object):
-    pass
+def argRead(ar, default=None):
     
+    """Corrects the argument input in case it is not in the format True/False."""
+    if ar == "0" or ar == "False":
+        ar = False
+    elif ar == "1" or ar == "True":
+        ar = True
+    elif ar is None:
+        if default:
+            ar = default
+        else:
+            ar = False
+    else:
+        raise ValueError("Argument value not recognised.")
+    return ar
+
+
 # function for generating metadata for a CityGML model
 def generatemetadata(inputfile, outputfile):
     tree = etree.parse(inputfile)
@@ -33,40 +49,7 @@ def generatemetadata(inputfile, outputfile):
                 citygmlversion = '2.0'
                 break    
     if citygmlversion == "1.0":
-        ns="http://www.opengis.net/citygml/1.0"
-        ns_gml  = "http://www.opengis.net/gml"
-        ns_xAL="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0"
-        ns_xsi="http://www.w3.org/2001/XMLSchema-instance"
-        ns_xlink="http://www.w3.org/1999/xlink"
-        ns_dem="http://www.opengis.net/citygml/relief/1.0"
-        ns_bldg="http://www.opengis.net/citygml/building/2.0"
-        ns_app="http://www.opengis.net/citygml/appearance/2.0"
-        ns_wtr="http://www.opengis.net/citygml/waterbody/2.0"
-        ns_gen="http://www.opengis.net/citygml/generics/2.0"
-        ns_luse="http://www.opengis.net/citygml/landuse/2.0"
-        ns_tran="http://www.opengis.net/citygml/transportation/2.0"
-        ns_frn="http://www.opengis.net/citygml/cityfurniture/2.0"
-        ns_veg="http://www.opengis.net/citygml/vegetation/2.0"
-        ns_tun="http://www.opengis.net/citygml/tunnel/2.0"
-        ns_tex="http://www.opengis.net/citygml/texturedsurface/2.0"
-        ns_brid="http://www.opengis.net/citygml/bridge/2.0"
-        ns_core="http://www.opengis.net/citygml/base/1.0"
-        ns_grp="http://www.opengis.net/citygml/cityobjectgroup/2.0"
-        ns_md = "http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE"
-        schemalocs="http://www.opengis.net/citygml/1.0 http://schemas.opengis.net/citygml/1.0/cityGMLBase.xsd \
-        http://www.opengis.net/citygml/building/1.0 http://schemas.opengis.net/citygml/building/1.0/building.xsd \
-        http://www.opengis.net/citygml/appearance/1.0 http://schemas.opengis.net/citygml/appearance/1.0/appearance.xsd \
-        http://www.opengis.net/citygml/cityfurniture/1.0 http://schemas.opengis.net/citygml/cityfurniture/1.0/cityFurniture.xsd \
-        http://www.opengis.net/citygml/waterbody/1.0 http://schemas.opengis.net/citygml/waterbody/1.0/waterBody.xsd \
-        http://www.opengis.net/citygml/vegetation/1.0 http://schemas.opengis.net/citygml/vegetation/1.0/vegetation.xsd \
-        http://www.opengis.net/citygml/transportation/1.0 http://schemas.opengis.net/citygml/transportation/1.0/transportation.xsd \
-        http://www.opengis.net/citygml/texturedsurface/1.0 http://schemas.opengis.net/citygml/texturedsurface/1.0/texturedSurface.xsd \
-        http://www.opengis.net/citygml/relief/1.0 http://schemas.opengis.net/citygml/relief/1.0/relief.xsd \
-        http://www.opengis.net/citygml/landuse/1.0 http://schemas.opengis.net/citygml/landuse/1.0/landUse.xsd \
-        http://www.opengis.net/citygml/generics/1.0 http://schemas.opengis.net/citygml/generics/1.0/generics.xsd \
-        http://www.opengis.net/citygml/cityobjectgroup/1.0 http://schemas.opengis.net/citygml/cityobjectgroup/1.0/cityObjectGroup.xsd \
-        http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE ../../XSD/3DMD_ADE.xsd" 
-
+        print ("CityGML version not supported!")
     elif citygmlversion == "2.0":
         ns="http://www.opengis.net/citygml/2.0"
         ns_gml  = "http://www.opengis.net/gml"
@@ -328,6 +311,7 @@ def generatemetadata(inputfile, outputfile):
     # MDcityfeatures
     thematicModelsSet = set()
     terrainTypeSet = set()
+    cogSet = set()
     buildingCount = 0
     buildingpartsCount = 0
     buildinginstallationsCount = 0
@@ -343,9 +327,6 @@ def generatemetadata(inputfile, outputfile):
     plantcoverCount = 0
     waterCount = 0
     tinreliefCount = 0
-    rasterreliefCount = 0
-    mpreliefCount = 0
-    blreliefCount = 0
     transportationCount = 0
     roadCount = 0
     railwayCount = 0
@@ -395,24 +376,6 @@ def generatemetadata(inputfile, outputfile):
     lod2tinreliefCount = 0
     lod3tinreliefCount = 0
     lod4tinreliefCount = 0
-    
-    lod0rasterreliefCount = 0
-    lod1rasterreliefCount = 0
-    lod2rasterreliefCount = 0
-    lod3rasterreliefCount = 0
-    lod4rasterreliefCount = 0
-    
-    lod0mpreliefCount = 0
-    lod1mpreliefCount = 0
-    lod2mpreliefCount = 0
-    lod3mpreliefCount = 0
-    lod4mpreliefCount = 0
-    
-    lod0blreliefCount = 0
-    lod1blreliefCount = 0
-    lod2blreliefCount = 0
-    lod3blreliefCount = 0
-    lod4blreliefCount = 0
       
     lod0genCount = 0
     lod1genCount = 0
@@ -432,6 +395,90 @@ def generatemetadata(inputfile, outputfile):
     lod3luseCount = 0
     lod4luseCount = 0
     
+    #for cityobject groups
+    
+    cogbuildingCount = 0
+    cogbuildingpartsCount = 0
+    cogbuildinginstallationsCount = 0
+    cogbridgeCount = 0
+    cogbridgepartsCount = 0
+    cogbridgeinstallationsCount = 0
+    cogbridgeconstructionelementsCount = 0
+    cogtunnelCount = 0
+    cogtunnelpartsCount = 0
+    cogtunnelinstallationsCount = 0
+    cogvegCount = 0
+    cogsvoCount = 0
+    cogplantcoverCount = 0
+    cogwaterCount = 0
+    cogtinreliefCount = 0
+    cogtransportationCount = 0
+    cogroadCount = 0
+    cograilwayCount = 0
+    cogsquareCount = 0
+    cogtrackCount = 0
+    coggenericsCount = 0
+    cogcityfurnitureCount = 0
+    coglanduseCount = 0
+    cognumberOfTriangles = 0
+    
+    lod0cogbldgCount = 0
+    lod1cogbldgCount = 0
+    lod2cogbldgCount = 0
+    lod3cogbldgCount = 0
+    lod4cogbldgCount = 0
+    
+    lod1cogbridgeCount = 0
+    lod2cogbridgeCount = 0
+    lod3cogbridgeCount = 0
+    lod4cogbridgeCount = 0
+    
+    lod1cogtunnelCount = 0
+    lod2cogtunnelCount = 0
+    lod3cogtunnelCount = 0
+    lod4cogtunnelCount = 0
+    
+    lod0cogtranCount = 0
+    lod1cogtranCount = 0
+    lod2cogtranCount = 0
+    lod3cogtranCount = 0
+    lod4cogtranCount = 0
+    
+    lod1cogvegCount = 0
+    lod2cogvegCount = 0
+    lod3cogvegCount = 0
+    lod4cogvegCount = 0
+    
+    lod0cogwaterCount = 0
+    lod1cogwaterCount = 0
+    lod2cogwaterCount = 0
+    lod3cogwaterCount = 0
+    lod4cogwaterCount = 0
+    
+    lod0coggenCount = 0
+    lod1coggenCount = 0
+    lod2coggenCount = 0
+    lod3coggenCount = 0
+    lod4coggenCount = 0
+    
+    lod1cogcfCount = 0
+    lod2cogcfCount = 0
+    lod3cogcfCount = 0
+    lod4cogcfCount = 0
+    
+    
+    lod0cogluseCount = 0
+    lod1cogluseCount = 0
+    lod2cogluseCount = 0
+    lod3cogluseCount = 0
+    lod4cogluseCount = 0
+
+    lod0cogtinreliefCount = 0
+    lod1cogtinreliefCount = 0
+    lod2cogtinreliefCount = 0
+    lod3cogtinreliefCount = 0
+    lod4cogtinreliefCount = 0
+    
     for obj in root.getiterator('{%s}cityObjectMember'% ns):
         for child in obj.getchildren():
             if child.tag not in thematicModelsSet:
@@ -439,371 +486,237 @@ def generatemetadata(inputfile, outputfile):
                 if child.tag == '{%s}Building' %ns_bldg:
                     thematicModelsSet.add("Building")
                     buildingCount = buildingCount + 1
-                    if child.findall('.//{%s}BuildingInstallation'  %ns_bldg):
-                        buildinginstallationsCount = buildinginstallationsCount + (len(child.findall('.//{%s}BuildingInstallation'  %ns_bldg)))
-                    if child.findall('.//{%s}BuildingPart'  %ns_bldg):
-                        buildingpartsCount = buildingpartsCount + (len(child.findall('.//{%s}BuildingPart'  %ns_bldg)))
-                    if child.findall('{%s}lod0FootPrint'  %ns_bldg) or \
-                    child.findall('{%s}lod0RoofEdge'  %ns_bldg):
-                        lod0bldgCount = lod0bldgCount + (len(child.findall('{%s}lod0FootPrint'  %ns_bldg)))
-                        lod0bldgCount = lod0bldgCount + (len(child.findall('{%s}lod0RoofEdge'  %ns_bldg)))
-                    if child.findall('{%s}lod1MultiSurface'  %ns_bldg) or \
-                    child.findall('{%s}lod1Solid'  %ns_bldg):
-                        lod1bldgCount = lod1bldgCount + (len(child.findall('{%s}lod1MultiSurface'  %ns_bldg)))
-                        lod1bldgCount = lod1bldgCount + (len(child.findall('{%s}lod1Solid'  %ns_bldg)))
-                    if child.findall('{%s}lod2MultiSurface'  %ns_bldg) or \
-                    child.findall('{%s}lod2Solid'  %ns_bldg):
-                        lod2bldgCount = lod2bldgCount + (len(child.findall('{%s}lod2MultiSurface'  %ns_bldg)))
-                        lod2bldgCount = lod2bldgCount + (len(child.findall('{%s}lod2Solid'  %ns_bldg)))
-                    if child.findall('{%s}lod3MultiSurface'  %ns_bldg) or \
-                    child.findall('{%s}lod3Solid'  %ns_bldg):
-                        lod3bldgCount = lod3bldgCount + (len(child.findall('{%s}lod3MultiSurface'  %ns_bldg)))
-                        lod3bldgCount = lod3bldgCount + (len(child.findall('{%s}lod3Solid'  %ns_bldg)))
-                    if child.findall('{%s}lod4MultiSurface'  %ns_bldg) or \
-                    child.findall('{%s}lod4Solid'  %ns_bldg):
-                        lod4bldgCount = lod4bldgCount + (len(child.findall('{%s}lod4MultiSurface'  %ns_bldg)))
-                        lod4bldgCount = lod4bldgCount + (len(child.findall('{%s}lod4Solid'  %ns_bldg)))
-                    if child.findall('{%s}boundedBy'  %ns_bldg):
-                        bb = child.find('{%s}boundedBy'  %ns_bldg)
-                        if bb.findall('.//{%s}lod2MultiSurface'  %ns_bldg):
-                            lod2bldgCount = lod2bldgCount + 1
-                        if bb.findall('.//{%s}lod3MultiSurface'  %ns_bldg):
-                            lod3bldgCount = lod3bldgCount + 1
-                        if bb.findall('.//{%s}lod4MultiSurface'  %ns_bldg):
-                            lod4bldgCount = lod4bldgCount + 1  
+                    lodcount = getcityobjects.getbuilding(child)                    
+                    lod0bldgCount = lod0bldgCount + lodcount[0]
+                    lod1bldgCount = lod1bldgCount + lodcount[1]
+                    lod2bldgCount = lod2bldgCount + lodcount[2]
+                    lod3bldgCount = lod3bldgCount + lodcount[3]   
+                    lod4bldgCount = lod4bldgCount + lodcount[4]
+                    buildinginstallationsCount = buildinginstallationsCount + lodcount[5]   
+                    buildingpartsCount = buildingpartsCount + lodcount[6]
                             
                 if child.tag == '{%s}Bridge' %ns_brid:
                     thematicModelsSet.add("Bridge") 
                     bridgeCount = bridgeCount + 1
-                    if child.findall('.//{%s}BridgeInstallation'  %ns_brid):
-                        bridgeinstallationsCount = bridgeinstallationsCount + (len(child.findall('.//{%s}BridgeInstallation'  %ns_brid)))
-                    if child.findall('.//{%s}BridgePart'  %ns_brid):
-                        bridgepartsCount = bridgepartsCount + (len(child.findall('.//{%s}BridgePart'  %ns_brid)))
-                    if child.findall('.//{%s}BridgeConstructionElement'  %ns_brid):
-                        bridgeconstructionelementsCount = bridgeconstructionelementsCount + (len(child.findall('.//{%s}BridgeConstructionElement'  %ns_brid)))
-                    if child.findall('{%s}lod1MultiSurface'  %ns_brid) or \
-                    child.findall('{%s}lod1Solid'  %ns_brid):
-                        lod1bridgeCount = lod1bridgeCount + (len(child.findall('{%s}lod1MultiSurface'  %ns_brid)))
-                        lod1bridgeCount = lod1bridgeCount + (len(child.findall('{%s}lod1Solid'  %ns_brid)))
-                    if child.findall('{%s}lod2MultiSurface'  %ns_brid) or \
-                    child.findall('{%s}lod2MultiCurve'  %ns_brid) or \
-                    child.findall('{%s}lod2Solid'  %ns_brid):
-                        lod2bridgeCount = lod2bridgeCount + (len(child.findall('{%s}lod2MultiSurface'  %ns_brid)))
-                        lod2bridgeCount = lod2bridgeCount + (len(child.findall('{%s}lod2MultiCurve'  %ns_brid)))
-                        lod2bridgeCount = lod2bridgeCount + (len(child.findall('{%s}lod2Solid'  %ns_brid)))
-                    if child.findall('{%s}lod3MultiSurface'  %ns_brid) or \
-                    child.findall('{%s}lod3MultiCurve'  %ns_brid) or \
-                    child.findall('{%s}lod3Solid'  %ns_brid):
-                        lod3bridgeCount = lod3bridgeCount + (len(child.findall('{%s}lod3MultiSurface'  %ns_brid)))
-                        lod3bridgeCount = lod3bridgeCount + (len(child.findall('{%s}lod3Solid'  %ns_brid)))
-                        lod3bridgeCount = lod3bridgeCount + (len(child.findall('{%s}lod3MultiCurve'  %ns_brid)))
-                    if child.findall('{%s}lod4MultiSurface'  %ns_brid) or \
-                    child.findall('{%s}lod4MultiCurve'  %ns_brid) or \
-                    child.findall('{%s}lod4Solid'  %ns_brid):
-                        lod4bridgeCount = lod4bridgeCount + (len(child.findall('{%s}lod4MultiSurface'  %ns_brid)))
-                        lod4bridgeCount = lod4bridgeCount + (len(child.findall('{%s}lod4Solid'  %ns_brid)))
-                        lod4bridgeCount = lod4bridgeCount + (len(child.findall('{%s}lod4MultiCurve'  %ns_brid)))
-                    if child.findall('{%s}boundedBy'  %ns_brid):
-                        bb = child.find('{%s}boundedBy'  %ns_brid)
-                        if bb.findall('.//{%s}lod2MultiSurface'  %ns_brid):
-                            lod2tunnelCount = lod2tunnelCount + 1
-                        if bb.findall('.//{%s}lod3MultiSurface'  %ns_brid):
-                            lod3tunnelCount = lod3tunnelCount + 1
-                        if bb.findall('.//{%s}lod4MultiSurface'  %ns_brid):
-                            lod4tunnelCount = lod4tunnelCount + 1   
+                    lodcount = getcityobjects.getbridge(child)
+                    lod1bridgeCount = lod1bridgeCount + lodcount[0]
+                    lod2bridgeCount = lod2bridgeCount + lodcount[1]
+                    lod3bridgeCount = lod3bridgeCount + lodcount[2]
+                    lod4bridgeCount = lod4bridgeCount + lodcount[3]   
+                    bridgeinstallationsCount = bridgeinstallationsCount + lodcount[4]   
+                    bridgepartsCount = bridgepartsCount + lodcount[5] 
+                    bridgeconstructionelementsCount = bridgeconstructionelementsCount +lodcount[6] 
                     
                 if child.tag == '{%s}Tunnel' %ns_tun:
                     thematicModelsSet.add("Tunnel")
                     tunnelCount = tunnelCount + 1
-                    if child.findall('.//{%s}TunnelInstallation'  %ns_tun):
-                        tunnelinstallationsCount = tunnelinstallationsCount + (len(child.findall('.//{%s}TunnelInstallation'  %ns_tun)))
-                    if child.findall('.//{%s}TunnelPart'  %ns_tun):
-                        tunnelpartsCount = tunnelpartsCount + (len(child.findall('.//{%s}TunnelPart'  %ns_tun)))
-                    if child.findall('{%s}lod1MultiSurface'  %ns_tun) or \
-                    child.findall('{%s}lod1Solid'  %ns_tun):
-                        lod1tunnelCount = lod1tunnelCount + (len(child.findall('{%s}lod1MultiSurface'  %ns_tun)))
-                        lod1tunnelCount = lod1tunnelCount + (len(child.findall('{%s}lod1Solid'  %ns_tun)))
-                    if child.findall('{%s}lod2MultiSurface'  %ns_brid) or \
-                    child.findall('{%s}lod2MultiCurve'  %ns_tun) or \
-                    child.findall('{%s}lod2Solid'  %ns_tun):
-                        lod2tunnelCount = lod2tunnelCount + (len(child.findall('{%s}lod2MultiSurface'  %ns_tun)))
-                        lod2tunnelCount = lod2tunnelCount + (len(child.findall('{%s}lod2MultiCurve'  %ns_tun)))
-                        lod2tunnelCount = lod2tunnelCount + (len(child.findall('{%s}lod2Solid'  %ns_tun)))
-                    if child.find('{%s}lod3MultiSurface'  %ns_tun) or \
-                    child.find('{%s}lod3MultiCurve'  %ns_tun) or \
-                    child.find('{%s}lod3Solid'  %ns_tun):
-                        print ("found")
-                        lod3tunnelCount = lod3tunnelCount + (len(child.findall('{%s}lod3MultiSurface'  %ns_tun)))
-                        lod3tunnelCount = lod3tunnelCount + (len(child.findall('{%s}lod3Solid'  %ns_tun)))
-                        lod3tunnelCount = lod3tunnelCount + (len(child.findall('{%s}lod3MultiCurve'  %ns_tun)))
-                    if child.findall('{%s}lod4MultiSurface'  %ns_tun) or \
-                    child.findall('{%s}lod4MultiCurve'  %ns_tun) or \
-                    child.findall('{%s}lod4Solid'  %ns_tun):
-                        lod4tunnelCount = lod4tunnelCount + (len(child.findall('{%s}lod4MultiSurface'  %ns_tun)))
-                        lod4tunnelCount = lod4tunnelCount + (len(child.findall('{%s}lod4Solid'  %ns_tun)))
-                        lod4tunnelCount = lod4tunnelCount + (len(child.findall('{%s}lod4MultiCurve'  %ns_tun)))
-                    if child.findall('{%s}boundedBy'  %ns_tun):
-                        bb = child.find('{%s}boundedBy'  %ns_tun)
-                        if bb.findall('.//{%s}lod2MultiSurface'  %ns_tun):
-                            lod2tunnelCount = lod2tunnelCount + 1
-                        if bb.findall('.//{%s}lod3MultiSurface'  %ns_tun):
-                            lod3tunnelCount = lod3tunnelCount + 1
-                        if bb.findall('.//{%s}lod4MultiSurface'  %ns_tun):
-                            lod4tunnelCount = lod4tunnelCount + 1    
-                
+                    lodcount = getcityobjects.gettunnel(child)
+                    lod1tunnelCount = lod1tunnelCount + lodcount[0]
+                    lod2tunnelCount = lod2tunnelCount + lodcount[1]
+                    lod3tunnelCount = lod3tunnelCount + lodcount[2]
+                    lod4tunnelCount = lod4tunnelCount + lodcount[3]   
+                    tunnelinstallationsCount = tunnelinstallationsCount + lodcount[4]   
+                    tunnelpartsCount = tunnelpartsCount + lodcount[5]   
+                    
                 if child.tag == '{%s}SolitaryVegetationObject' %ns_veg or \
                 child.tag == '{%s}PlantCover' %ns_veg:
                     thematicModelsSet.add("Vegetation")
                     vegCount = vegCount + 1
-                    if child.tag == '{%s}SolitaryVegetationObject' %ns_veg:
-                        svoCount = svoCount + 1
-                    if child.tag == '{%s}PlantCover' %ns_veg:
-                        plantcoverCount = plantcoverCount + 1
-                    
-                    if child.findall('{%s}lod1Geometry'  %ns_veg) or \
-                    child.findall('{%s}lod1ImplicitRepresentation'  %ns_veg) or \
-                    child.findall('{%s}lod1MultiSurface'  %ns_veg) or \
-                    child.findall('{%s}lod1MultiSolid'  %ns_veg):
-                        lod1vegCount = lod1vegCount + (len(child.findall('{%s}lod1Geometry'  %ns_veg)))
-                        lod1vegCount = lod1vegCount + (len(child.findall('{%s}lod1ImplicitRepresentation'  %ns_veg)))
-                        lod1vegCount = lod1vegCount + (len(child.findall('{%s}lod1MultiSurface'  %ns_veg)))
-                        lod1vegCount = lod1vegCount + (len(child.findall('{%s}lod1MultiSolid'  %ns_veg)))
-                    if child.findall('{%s}lod2Geometry'  %ns_veg) or \
-                    child.findall('{%s}lod2ImplicitRepresentation'  %ns_veg) or \
-                    child.findall('{%s}lod2MultiSurface'  %ns_veg) or \
-                    child.findall('{%s}lod2MultiSolid'  %ns_veg):
-                        lod2vegCount = lod2vegCount + (len(child.findall('{%s}lod2Geometry'  %ns_veg)))
-                        lod2vegCount = lod2vegCount + (len(child.findall('{%s}lod2ImplicitRepresentation'  %ns_veg)))
-                        lod2vegCount = lod2vegCount + (len(child.findall('{%s}lod2MultiSurface'  %ns_veg)))
-                        lod2vegCount = lod2vegCount + (len(child.findall('{%s}lod2MultiSolid'  %ns_veg)))
-                    if child.findall('{%s}lod3Geometry'  %ns_veg) or \
-                    child.findall('{%s}lod3ImplicitRepresentation'  %ns_veg) or \
-                    child.findall('{%s}lod3MultiSurface'  %ns_veg) or \
-                    child.findall('{%s}lod3MultiSolid'  %ns_veg):
-                        lod3vegCount = lod3vegCount + (len(child.findall('{%s}lod3Geometry'  %ns_veg)))
-                        lod3vegCount = lod3vegCount + (len(child.findall('{%s}lod3ImplicitRepresentation'  %ns_veg)))
-                        lod3vegCount = lod3vegCount + (len(child.findall('{%s}lod3MultiSurface'  %ns_veg)))
-                        lod3vegCount = lod3vegCount + (len(child.findall('{%s}lod3MultiSolid'  %ns_veg)))
-                    if child.findall('{%s}lod4Geometry'  %ns_veg) or \
-                    child.findall('{%s}lod4ImplicitRepresentation'  %ns_veg) or \
-                    child.findall('{%s}lod4MultiSurface'  %ns_veg) or \
-                    child.findall('{%s}lod4MultiSolid'  %ns_veg):
-                        lod4vegCount = lod4vegCount + (len(child.findall('{%s}lod4Geometry'  %ns_veg)))
-                        lod4vegCount = lod4vegCount + (len(child.findall('{%s}lod4ImplicitRepresentation'  %ns_veg)))
-                        lod4vegCount = lod4vegCount + (len(child.findall('{%s}lod4MultiSurface'  %ns_veg)))
-                        lod4vegCount = lod4vegCount + (len(child.findall('{%s}lod4MultiSolid'  %ns_veg)))                        
+                    lodcount = getcityobjects.getveg(child)
+                    lod1vegCount = lod1vegCount + lodcount[0]
+                    lod2vegCount = lod2vegCount + lodcount[1]
+                    lod3vegCount = lod3vegCount + lodcount[2]
+                    lod4vegCount = lod4vegCount + lodcount[3] 
+                    svoCount = svoCount + lodcount[4]  
+                    plantcoverCount = plantcoverCount + lodcount[5]                      
                     
                 if child.tag == '{%s}WaterBody' %ns_wtr:
                     thematicModelsSet.add("WaterBody")
                     waterCount = waterCount + 1
-                    if child.findall('{%s}lod0MultiSurface'  %ns_wtr) or \
-                    child.findall('{%s}lod0MultiCurve'  %ns_wtr):
-                        lod0waterCount = lod0waterCount + (len(child.findall('{%s}lod0MultiSurface'  %ns_wtr)))
-                        lod0waterCount = lod0waterCount + (len(child.findall('{%s}lod0MultiCurve'  %ns_wtr)))
-                    if child.findall('{%s}lod1MultiSurface'  %ns_wtr) or \
-                    child.findall('{%s}lod1MultiCurve'  %ns_wtr) or \
-                    child.findall('{%s}lod1Solid'  %ns_wtr):
-                        lod1waterCount = lod1waterCount + (len(child.findall('{%s}lod1MultiSurface'  %ns_wtr)))
-                        lod1waterCount = lod1waterCount + (len(child.findall('{%s}lod1Solid'  %ns_wtr)))
-                        lod1waterCount = lod1waterCount + (len(child.findall('{%s}lod1MultiCurve'  %ns_wtr)))
-                    if child.findall('{%s}lod2Solid'  %ns_wtr):
-                        lod2waterCount = lod2waterCount + (len(child.findall('{%s}lod2Solid'  %ns_wtr)))
-                    if child.findall('{%s}lod3Solid'  %ns_wtr):
-                        lod3waterCount = lod3waterCount + (len(child.findall('{%s}lod3Solid'  %ns_wtr)))
-                    if child.findall('{%s}lod4Solid'  %ns_wtr):
-                        lod4waterCount = lod4waterCount + (len(child.findall('{%s}lod4Solid'  %ns_wtr)))
-                    if child.findall('{%s}boundedBy'  %ns_wtr):
-                        bb = child.find('{%s}boundedBy'  %ns_wtr)
-                        if bb.findall('.//{%s}lod2Surface'  %ns_wtr):
-                            lod2waterCount = lod2waterCount + 1
-                        if bb.findall('.//{%s}lod3Surface'  %ns_wtr):
-                            lod3waterCount = lod3waterCount + 1
-                        if bb.findall('.//{%s}lod4Surface'  %ns_wtr):
-                            lod4waterCount = lod4waterCount + 1 
+                    lodcount = getcityobjects.getwater(child)
+                    lod0waterCount = lod0waterCount + lodcount[0]
+                    lod1waterCount = lod1waterCount + lodcount[1]
+                    lod2waterCount = lod2waterCount + lodcount[2]
+                    lod3waterCount = lod3waterCount + lodcount[3]
+                    lod4waterCount = lod4waterCount + lodcount[4]
                     
                 if child.tag == '{%s}ReliefFeature' %ns_dem:
                     if child.findall('.//{%s}TINRelief'  %ns_dem):
                         thematicModelsSet.add("Relief")
                         terrainTypeSet.add("TINRelief")
                         tinreliefCount = tinreliefCount + 1
-                        for tr in child.findall('.//{%s}TINRelief'  %ns_dem):
-                            lodValue = (tr.find('.//{%s}lod' %ns_dem)).text
-                            print (lodValue)    
-                            if lodValue == "0":
-                                lod0tinreliefCount = lod0tinreliefCount + 1
-                            if lodValue == "1":
-                                lod1tinreliefCount = lod1tinreliefCount + 1
-                            if lodValue == "2":
-                                lod2tinreliefCount = lod2tinreliefCount + 1
-                            if lodValue == "3":
-                                lod3tinreliefCount = lod3tinreliefCount + 1
-                            if lodValue == "4":
-                                lod4tinreliefCount = lod4tinreliefCount + 1
-                            
-                    if child.findall('.//{%s}RasterRelief'  %ns_dem):
-                        thematicModelsSet.add("Relief")
-                        rasterreliefCount = rasterreliefCount + 1
-                        terrainTypeSet.add("RasterRelief")
-                        rasterreliefCount = rasterreliefCount + 1
-                        for tr in child.findall('.//{%s}RasterRelief'  %ns_dem):
-                            lodValue = (tr.find('.//{%s}lod' %ns_dem)).text
-                            print (lodValue)    
-                            if lodValue == "0":
-                                lod0rasterreliefCount = lod0rasterreliefCount + 1
-                            if lodValue == "1":
-                                lod1rasterreliefCount = lod1rasterreliefCount + 1
-                            if lodValue == "2":
-                                lod2rasterreliefCount = lod2rasterreliefCount + 1
-                            if lodValue == "3":
-                                lod3rasterreliefCount = lod3rasterreliefCount + 1
-                            if lodValue == "4":
-                                lod4rasterreliefCount = lod4rasterreliefCount + 1
-                            
-                    if child.findall('.//{%s}MassPointRelief'  %ns_dem):
-                        thematicModelsSet.add("Relief")
-                        mpreliefCount = mpreliefCount + 1
-                        terrainTypeSet.add("MassPointRelief")
-                        mpreliefCount = mpreliefCount + 1
-                        for tr in child.findall('.//{%s}MassPointRelief'  %ns_dem):
-                            lodValue = (tr.find('.//{%s}lod' %ns_dem)).text
-                            print (lodValue)    
-                            if lodValue == "0":
-                                lod0mpreliefCount = lod0mpreliefCount + 1
-                            if lodValue == "1":
-                                lod1mpreliefCount = lod1mpreliefCount + 1
-                            if lodValue == "2":
-                                lod2mpreliefCount = lod2mpreliefCount + 1
-                            if lodValue == "3":
-                                lod3mpreliefCount = lod3mpreliefCount + 1
-                            if lodValue == "4":
-                                lod4mpreliefCount = lod4mpreliefCount + 1
-                            
-                    if child.findall('.//{%s}BreaklineRelief'  %ns_dem):
-                        thematicModelsSet.add("Relief")
-                        blreliefCount = blreliefCount + 1
-                        terrainTypeSet.add("BreaklineRelief")
-                        tinreliefCount = tinreliefCount + 1
-                        for tr in child.findall('.//{%s}BreaklineRelief'  %ns_dem):
-                            lodValue = (tr.find('.//{%s}lod' %ns_dem)).text
-                            print (lodValue)    
-                            if lodValue == "0":
-                                lod0blreliefCount = lod0blreliefCount + 1
-                            if lodValue == "1":
-                                lod1blreliefCount = lod1blreliefCount + 1
-                            if lodValue == "2":
-                                lod2blreliefCount = lod2blreliefCount + 1
-                            if lodValue == "3":
-                                lod3blreliefCount = lod3blreliefCount + 1
-                            if lodValue == "4":
-                                lod4blreliefCount = lod4blreliefCount + 1
-                            
-                    
+                        lodcount = getcityobjects.getrelief(child)
+                        lod0tinreliefCount = lod0tinreliefCount + lodcount[0]
+                        lod1tinreliefCount = lod1tinreliefCount + lodcount[1]
+                        lod2tinreliefCount = lod2tinreliefCount + lodcount[2]
+                        lod3tinreliefCount = lod3tinreliefCount + lodcount[3]
+                        lod4tinreliefCount = lod4tinreliefCount + lodcount[4]
+                        numberOfTriangles = numberOfTriangles + lodcount[5]
+                      
                 if child.tag == '{%s}Road' %ns_tran or \
                 child.tag == '{%s}Railway' %ns_tran or \
                 child.tag == '{%s}Square' %ns_tran or \
                 child.tag == '{%s}Track' %ns_tran:
                     thematicModelsSet.add("Transportation")
                     transportationCount = transportationCount + 1
-                    if child.tag == '{%s}Road'  %ns_tran:
-                        roadCount = roadCount + 1
-                    if child.tag == '{%s}Railway' %ns_tran:
-                        railwayCount = railwayCount + 1
-                    if child.tag == '{%s}Square'  %ns_tran:
-                        squareCount = squareCount + 1
-                    if child.tag == '{%s}Track'  %ns_tran:
-                        trackCount = trackCount + 1
-                    if child.findall('{%s}lod0Network'  %ns_tran):
-                        lod0tranCount = lod0tranCount + (len(child.findall('{%s}lod0Network'  %ns_tran)))
-                    if child.findall('{%s}lod1MultiSurface'  %ns_tran):
-                        lod1tranCount = lod1tranCount + (len(child.findall('{%s}lod1MultiSurface'  %ns_tran)))
-                    if child.findall('{%s}lod2MultiSurface'  %ns_tran):
-                        lod2tranCount = lod2tranCount + (len(child.findall('{%s}lod2MultiSurface'  %ns_tran)))
-                    if child.findall('{%s}lod3MultiSurface'  %ns_tran):
-                        lod3tranCount = lod3tranCount + (len(child.findall('{%s}lod3MultiSurface'  %ns_tran)))
-                    if child.findall('{%s}lod4MultiSurface'  %ns_tran):
-                        lod4tranCount = lod4tranCount + (len(child.findall('{%s}lod4MultiSurface'  %ns_tran)))
-                    
+                    lodcount = getcityobjects.gettransport(child)
+                    lod0tranCount = lod0tranCount + lodcount[0]
+                    lod1tranCount = lod1tranCount + lodcount[1]
+                    lod2tranCount = lod2tranCount + lodcount[2]
+                    lod3tranCount = lod3tranCount + lodcount[3]
+                    lod4tranCount = lod4tranCount + lodcount[4]
+                    roadCount = roadCount + lodcount[5]
+                    railwayCount = railwayCount + lodcount[6]
+                    squareCount = squareCount + lodcount[7]
+                    trackCount = trackCount + lodcount[8]                  
                     
                 if child.tag == '{%s}GenericCityObject' %ns_gen:                  
                     thematicModelsSet.add("Generics")
                     genericsCount = genericsCount + 1
-                    if child.findall('{%s}lod0Geometry'  %ns_gen) or \
-                    child.findall('{%s}lod0ImplicitRepresentation'  %ns_gen) or \
-                    child.findall('{%s}lod0TerrainIntersection'  %ns_gen):
-                        lod0genCount = lod0genCount + (len(child.findall('{%s}lod1Geometry'  %ns_gen)))
-                        lod0genCount = lod0genCount + (len(child.findall('{%s}lod1ImplicitRepresentation'  %ns_gen)))
-                        lod0genCount = lod0genCount + (len(child.findall('{%s}lod1TerrainIntersection'  %ns_frn)))    
-                    if child.findall('{%s}lod1Geometry'  %ns_gen) or \
-                    child.findall('{%s}lod1ImplicitRepresentation'  %ns_gen) or \
-                    child.findall('{%s}lod1TerrainIntersection'  %ns_gen):
-                        lod1genCount = lod1genCount + (len(child.findall('{%s}lod1Geometry'  %ns_gen)))
-                        lod1genCount = lod1genCount + (len(child.findall('{%s}lod1ImplicitRepresentation'  %ns_gen)))
-                        lod1genCount = lod1genCount + (len(child.findall('{%s}lod1TerrainIntersection'  %ns_frn)))
-                    if child.findall('{%s}lod2Geometry'  %ns_gen) or \
-                    child.findall('{%s}lod2ImplicitRepresentation'  %ns_gen) or \
-                    child.findall('{%s}lod2TerrainIntersection'  %ns_gen):
-                        lod2genCount = lod2genCount + (len(child.findall('{%s}lod2Geometry'  %ns_gen)))
-                        lod2genCount = lod2genCount + (len(child.findall('{%s}lod2ImplicitRepresentation'  %ns_gen)))
-                        lod2genCount = lod2genCount + (len(child.findall('{%s}lod2TerrainIntersection'  %ns_gen)))
-                    if child.findall('{%s}lod3Geometry'  %ns_gen) or \
-                    child.findall('{%s}lod3ImplicitRepresentation'  %ns_gen) or \
-                    child.findall('{%s}lod3TerrainIntersection'  %ns_gen):
-                        lod3genCount = lod3genCount + (len(child.findall('{%s}lod3Geometry'  %ns_gen)))
-                        lod3genCount = lod3genCount + (len(child.findall('{%s}lod3ImplicitRepresentation'  %ns_gen)))
-                        lod3genCount = lod3genCount + (len(child.findall('{%s}lod3TerrainIntersection'  %ns_gen)))
-                    if child.findall('{%s}lod4Geometry'  %ns_gen) or \
-                    child.findall('{%s}lod4ImplicitRepresentation'  %ns_gen) or \
-                    child.findall('{%s}lod4TerrainIntersection'  %ns_gen):
-                        lod4genCount = lod4genCount + (len(child.findall('{%s}lod4Geometry'  %ns_gen)))
-                        lod4genCount = lod4genCount + (len(child.findall('{%s}lod4ImplicitRepresentation'  %ns_gen)))
-                        lod4genCount = lod4genCount + (len(child.findall('{%s}lod4TerrainIntersection'  %ns_gen)))
-                    
+                    lodcount = getcityobjects.getgenerics(child)
+                    lod0genCount = lod0genCount + lodcount[0]
+                    lod1genCount = lod1genCount + lodcount[1]
+                    lod2genCount = lod2genCount + lodcount[2]
+                    lod3genCount = lod3genCount + lodcount[3]
+                    lod4genCount = lod4genCount + lodcount[4]                    
                     
                 if child.tag == '{%s}CityFurniture' %ns_frn:                
                     thematicModelsSet.add("CityFurniture")
                     cityfurnitureCount = cityfurnitureCount + 1
-                    if child.findall('.//{%s}lod1Geometry'  %ns_frn) or \
-                    child.findall('.//{%s}lod1ImplicitRepresentation'  %ns_frn) or \
-                    child.findall('.//{%s}lod1TerrainIntersection'  %ns_frn):
-                        lod1cfCount = lod1cfCount + (len(child.findall('.//{%s}lod1Geometry'  %ns_frn)))
-                        lod1cfCount = lod1cfCount + (len(child.findall('.//{%s}lod1ImplicitRepresentation'  %ns_frn)))
-                        lod1cfCount = lod1cfCount + (len(child.findall('.//{%s}lod1TerrainIntersection'  %ns_frn)))
-                    if child.findall('.//{%s}lod2Geometry'  %ns_frn) or \
-                    child.findall('.//{%s}lod2ImplicitRepresentation'  %ns_frn) or \
-                    child.findall('.//{%s}lod2TerrainIntersection'  %ns_frn):
-                        lod2cfCount = lod2cfCount + (len(child.findall('.//{%s}lod2Geometry'  %ns_frn)))
-                        lod2cfCount = lod2cfCount + (len(child.findall('.//{%s}lod2ImplicitRepresentation'  %ns_frn)))
-                        lod2cfCount = lod2cfCount + (len(child.findall('.//{%s}lod2TerrainIntersection'  %ns_frn)))
-                    if child.findall('.//{%s}lod3Geometry'  %ns_frn) or \
-                    child.findall('.//{%s}lod3ImplicitRepresentation'  %ns_frn) or \
-                    child.findall('.//{%s}lod3TerrainIntersection'  %ns_frn):
-                        lod3cfCount = lod3cfCount + (len(child.findall('.//{%s}lod3Geometry'  %ns_frn)))
-                        lod3cfCount = lod3cfCount + (len(child.findall('.//{%s}lod3ImplicitRepresentation'  %ns_frn)))
-                        lod3cfCount = lod3cfCount + (len(child.findall('.//{%s}lod3TerrainIntersection'  %ns_frn)))
-                    if child.findall('.//{%s}lod4Geometry'  %ns_frn) or \
-                    child.findall('.//{%s}lod4ImplicitRepresentation'  %ns_frn) or \
-                    child.findall('.//{%s}lod4TerrainIntersection'  %ns_frn):
-                        lod4cfCount = lod4cfCount + (len(child.findall('.//{%s}lod4Geometry'  %ns_frn)))
-                        lod4cfCount = lod4cfCount + (len(child.findall('.//{%s}lod4ImplicitRepresentation'  %ns_frn)))
-                        lod4cfCount = lod4cfCount + (len(child.findall('.//{%s}lod4TerrainIntersection'  %ns_frn)))
-                    
-                if child.tag == '{%s}CityObjectGroup' %ns_grp:                
-                    thematicModelsSet.add("CityObjectGroup")
-                    cityobjectgroupCount = cityobjectgroupCount + 1
+                    lodcount = getcityobjects.getcityfurniture(child)
+                    lod1cfCount = lod1cfCount + lodcount[0]
+                    lod2cfCount = lod2cfCount + lodcount[1]
+                    lod3cfCount = lod3cfCount + lodcount[2]
+                    lod4cfCount = lod4cfCount + lodcount[3]
                     
                 if child.tag == '{%s}LandUse' %ns_luse:               
                     thematicModelsSet.add("LandUse")
                     landuseCount = landuseCount + 1
-                    if child.findall('.//{%s}lod0MultiSurface'  %ns_luse):
-                        lod0luseCount = lod0luseCount + (len(child.findall('.//{%s}lod0MultiSurface'  %ns_luse)))
-                    if child.findall('.//{%s}lod1MultiSurface'  %ns_luse):
-                        lod1luseCount = lod1luseCount + (len(child.findall('.//{%s}lod1MultiSurface'  %ns_luse)))
-                    if child.findall('.//{%s}lod2MultiSurface'  %ns_luse):
-                        lod2luseCount = lod2luseCount + (len(child.findall('.//{%s}lod2MultiSurface'  %ns_luse)))
-                    if child.findall('.//{%s}lod3MultiSurface'  %ns_luse):
-                        lod3luseCount = lod3luseCount + (len(child.findall('.//{%s}lod3MultiSurface'  %ns_luse)))
-                    if child.findall('.//{%s}lod4MultiSurface'  %ns_luse):
-                        lod4luseCount = lod4luseCount + (len(child.findall('.//{%s}lod4MultiSurface'  %ns_luse)))
+                    lodcount = getcityobjects.getlanduse(child)
+                    lod0luseCount = lod0luseCount + lodcount[0]
+                    lod1luseCount = lod1luseCount + lodcount[1]
+                    lod2luseCount = lod2luseCount + lodcount[2]
+                    lod3luseCount = lod3luseCount + lodcount[3]
+                    lod4luseCount = lod4luseCount + lodcount[4]
+                    
+                if child.tag == '{%s}CityObjectGroup' %ns_grp:                
+                    thematicModelsSet.add("CityObjectGroup")
+                    cityobjectgroupCount = cityobjectgroupCount + 1
+                    if child.findall('{%s}groupMember'%ns_grp):
+                        for gm in child.findall('{%s}groupMember'%ns_grp):
+                            for node in gm.getiterator():
+                                if (node.tag =='{%s}SolitaryVegetationObject' %ns_veg) or \
+                                (node.tag =='{%s}PlantCover' %ns_veg):
+                                    cogSet.add("Vegetation")
+                                    cogvegCount = cogvegCount + 1
+                                    lodcount = getcityobjects.getveg(node)
+                                    lod1cogvegCount = lod1cogvegCount + lodcount[0]
+                                    lod2cogvegCount = lod2cogvegCount + lodcount[1]
+                                    lod3cogvegCount = lod3cogvegCount + lodcount[2]
+                                    lod4cogvegCount = lod4cogvegCount + lodcount[3]
+                                    cogsvoCount = cogsvoCount + lodcount[4]  
+                                    cogplantcoverCount = cogplantcoverCount + lodcount[5]  
+                                
+                                if (node.tag =='{%s}LandUse' %ns_luse):
+                                    cogSet.add("LandUse")
+                                    coglanduseCount = coglanduseCount + 1
+                                    lodcount = getcityobjects.getlanduse(node)
+                                    lod0cogluseCount = lod0cogluseCount + lodcount[0]
+                                    lod1cogluseCount = lod1cogluseCount + lodcount[1]
+                                    lod2cogluseCount = lod2cogluseCount + lodcount[2]
+                                    lod3cogluseCount = lod3cogluseCount + lodcount[3]
+                                    lod4cogluseCount = lod4cogluseCount + lodcount[4]
+                                
+                                if (node.tag =='{%s}GenericCityObject' %ns_gen):
+                                    cogSet.add("Generics")
+                                    coggenericsCount = coggenericsCount + 1
+                                    lodcount = getcityobjects.getgenerics(node)
+                                    lod0coggenCount = lod0coggenCount + lodcount[0]
+                                    lod1coggenCount = lod1coggenCount + lodcount[1]
+                                    lod2coggenCount = lod2coggenCount + lodcount[2]
+                                    lod3coggenCount = lod3coggenCount + lodcount[3]
+                                    lod4coggenCount = lod4coggenCount + lodcount[4]
+                                    
+                                if (node.tag =='{%s}Road' %ns_tran) or \
+                                (node.tag =='{%s}Railway' %ns_tran) or \
+                                (node.tag =='{%s}Square' %ns_tran) or \
+                                (node.tag =='{%s}Track' %ns_tran):
+                                    cogSet.add("Transportation")
+                                    cogtransportationCount = cogtransportationCount + 1
+                                    lodcount = getcityobjects.gettransport(node)
+                                    lod0cogtranCount = lod0cogtranCount + lodcount[0]
+                                    lod1cogtranCount = lod1cogtranCount + lodcount[1]
+                                    lod2cogtranCount = lod2cogtranCount + lodcount[2]
+                                    lod3cogtranCount = lod3cogtranCount + lodcount[3]
+                                    lod4cogtranCount = lod4cogtranCount + lodcount[4]
+                                    cogroadCount = cogroadCount + lodcount[5]
+                                    cograilwayCount = cograilwayCount + lodcount[6]
+                                    cogsquareCount = cogsquareCount + lodcount[7]
+                                    cogtrackCount = cogtrackCount + lodcount[8] 
+                                    
+                                if (node.tag =='{%s}WaterBody' %ns_wtr):
+                                    cogSet.add("WaterBody")
+                                    cogwaterCount = cogwaterCount + 1
+                                    lodcount = getcityobjects.getwater(node)
+                                    lod0cogwaterCount = lod0cogwaterCount + lodcount[0]
+                                    lod1cogwaterCount = lod1cogwaterCount + lodcount[1]
+                                    lod2cogwaterCount = lod2cogwaterCount + lodcount[2]
+                                    lod3cogwaterCount = lod3cogwaterCount + lodcount[3]
+                                    lod4cogwaterCount = lod4cogwaterCount + lodcount[4]
+                                
+                                if (node.tag =='{%s}CityFurniture' %ns_frn):
+                                    cogSet.add("CityFurniture")
+                                    cogcityfurnitureCount = cogcityfurnitureCount + 1
+                                    lodcount = getcityobjects.getcityfurniture(node)
+                                    lod1cogcfCount = lod1cogcfCount + lodcount[0]
+                                    lod2cogcfCount = lod2cogcfCount + lodcount[1]
+                                    lod3cogcfCount = lod3cogcfCount + lodcount[2]
+                                    lod4cogcfCount = lod4cogcfCount + lodcount[3]
+                                    
+                                if (node.tag =='{%s}Tunnel' %ns_tun):
+                                    cogSet.add("Tunnel")
+                                    cogtunnelCount = cogtunnelCount + 1
+                                    lodcount = getcityobjects.gettunnel(node)
+                                    lod1cogtunnelCount = lod1cogtunnelCount + lodcount[0]
+                                    lod2cogtunnelCount = lod2cogtunnelCount + lodcount[1]
+                                    lod3cogtunnelCount = lod3cogtunnelCount + lodcount[2]
+                                    lod4cogtunnelCount = lod4cogtunnelCount + lodcount[3]   
+                                    cogtunnelinstallationsCount = cogtunnelinstallationsCount + lodcount[4]   
+                                    cogtunnelpartsCount = cogtunnelpartsCount + lodcount[5]
+                                    
+                                if (node.tag =='{%s}Bridge' %ns_brid):
+                                    cogSet.add("Bridge")
+                                    cogbridgeCount = cogbridgeCount + 1
+                                    lodcount = getcityobjects.getbridge(node)
+                                    lod1cogbridgeCount = lod1cogbridgeCount + lodcount[0]
+                                    lod2cogbridgeCount = lod2cogbridgeCount + lodcount[1]
+                                    lod3cogbridgeCount = lod3cogbridgeCount + lodcount[2]
+                                    lod4cogbridgeCount = lod4cogbridgeCount + lodcount[3]   
+                                    cogbridgeinstallationsCount = cogbridgeinstallationsCount + lodcount[4]   
+                                    cogbridgepartsCount = cogbridgepartsCount + lodcount[5] 
+                                    cogbridgeconstructionelementsCount = cogbridgeconstructionelementsCount +lodcount[6]
+                                    
+                                if (node.tag =='{%s}Building' %ns_bldg):
+                                    cogSet.add("Building")
+                                    cogbuildingCount = cogbuildingCount + 1
+                                    lodcount = getcityobjects.getbuilding(node)                    
+                                    lod0cogbldgCount = lod0cogbldgCount + lodcount[0]
+                                    lod1cogbldgCount = lod1cogbldgCount + lodcount[1]
+                                    lod2cogbldgCount = lod2cogbldgCount + lodcount[2]
+                                    lod3cogbldgCount = lod3cogbldgCount + lodcount[3]   
+                                    lod4cogbldgCount = lod4cogbldgCount + lodcount[4]
+                                    cogbuildinginstallationsCount = cogbuildinginstallationsCount + lodcount[5]   
+                                    cogbuildingpartsCount = cogbuildingpartsCount + lodcount[6]
+                                if (node.tag =='{%s}Relief' %ns_bldg):
+                                    cogSet.add("Relief")
+                                    cogtinreliefCount = cogtinreliefCount + 1
+                                    lodcount = getcityobjects.getrelief(child)
+                                    lod0cogtinreliefCount = lod0cogtinreliefCount + lodcount[0]
+                                    lod1cogtinreliefCount = lod1cogtinreliefCount + lodcount[1]
+                                    lod2cogtinreliefCount = lod2cogtinreliefCount + lodcount[2]
+                                    lod3cogtinreliefCount = lod3cogtinreliefCount + lodcount[3]
+                                    lod4cogtinreliefCount = lod4cogtinreliefCount + lodcount[4]
+                                    cognumberOfTriangles = cognumberOfTriangles + lodcount[5]
                     
     
     print ("\nThematic Models Present: ") 
@@ -1047,139 +960,8 @@ def generatemetadata(inputfile, outputfile):
                     terrainProperties = etree.SubElement(mdrelief, "{%s}TerrainProperties" %ns_md)
                     mdTINRelief = etree.SubElement(terrainProperties, "{%s}MDTINRelief" %ns_md)
                     triangleCount = etree.SubElement(mdTINRelief, "{%s}triangleCount" %ns_md)
-                    triangleCount.text = "100"
-                if terrainItem == "RasterRelief":
-                    mdrelief = etree.SubElement(mdCityfeatures, "{%s}MDterrain" %ns_md)
-                    featureType = etree.SubElement(mdrelief, "{%s}featureType" %ns_md)
-                    featureType.text = "Relief"
-                    featureCount = etree.SubElement(mdrelief, "{%s}featureCount" %ns_md)
-                    featureCount.text = str(tinreliefCount)
-                    lods = etree.SubElement(mdrelief, "{%s}LevelsOfDetail" %ns_md)
-                    if lod0rasterreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "0"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod0rasterreliefCount)
-                    if lod1rasterreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "1"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod1rasterreliefCount)
-                    if lod2rasterreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "2"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod2rasterreliefCount)
-                    if lod3rasterreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "3"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod3rasterreliefCount)
-                    if lod4rasterreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "4"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod4rasterreliefCount)
-                    terrainType = etree.SubElement(mdrelief, "{%s}terrainType" %ns_md)
-                    terrainType.text = "RasterRelief"
-#                    terrainProperties = etree.SubElement(mdrelief, "{%s}TerrainProperties" %ns_md)
-#                    mdRasterRelief = etree.SubElement(terrainProperties, "{%s}MDRasterRelief" %ns_md)
-#                    extent = etree.SubElement(mdRasterRelief, "{%s}extent" %ns_md)
-#                    resolution = etree.SubElement(mdRasterRelief, "{%s}resolution" %ns_md)
-#                    resolution.attrib['uom'] = "cm"
-#                    resolution.text = ""
-                if terrainItem == "MassPointRelief":
-                    mdrelief = etree.SubElement(mdCityfeatures, "{%s}MDterrain" %ns_md)
-                    featureType = etree.SubElement(mdrelief, "{%s}featureType" %ns_md)
-                    featureType.text = "Relief"
-                    featureCount = etree.SubElement(mdrelief, "{%s}featureCount" %ns_md)
-                    featureCount.text = str(tinreliefCount)
-                    lods = etree.SubElement(mdrelief, "{%s}LevelsOfDetail" %ns_md)
-                    if lod0mpreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "0"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod0mpreliefCount)
-                    if lod1mpreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "1"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod1mpreliefCount)
-                    if lod2mpreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "2"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod2mpreliefCount)
-                    if lod3mpreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "3"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod3mpreliefCount)
-                    if lod4mpreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "4"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod4mpreliefCount)
-                    terrainType = etree.SubElement(mdrelief, "{%s}terrainType" %ns_md)
-                    terrainType.text = "MassPointRelief"
-#                    terrainProperties = etree.SubElement(mdrelief, "{%s}TerrainProperties" %ns_md)
-#                    mdMasspointRelief = etree.SubElement(terrainProperties, "{%s}MDMasspointRelief" %ns_md)
-#                    pointCount = etree.SubElement(mdMasspointRelief, "{%s}pointCount" %ns_md)
-#                    pointCount.text = "1000"
-                if terrainItem == "BreaklineRelief":
-                    mdrelief = etree.SubElement(mdCityfeatures, "{%s}MDterrain" %ns_md)
-                    featureType = etree.SubElement(mdrelief, "{%s}featureType" %ns_md)
-                    featureType.text = "Relief"
-                    featureCount = etree.SubElement(mdrelief, "{%s}featureCount" %ns_md)
-                    featureCount.text = str(tinreliefCount)
-                    lods = etree.SubElement(mdrelief, "{%s}LevelsOfDetail" %ns_md)
-                    if lod0blreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "0"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod0blreliefCount)
-                    if lod1blreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "1"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod1blreliefCount)
-                    if lod2blreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "2"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod2blreliefCount)
-                    if lod3blreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "3"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod3blreliefCount)
-                    if lod4blreliefCount != 0:
-                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
-                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
-                        mdlod.text = "4"
-                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
-                        mdlodcount.text = str(lod4blreliefCount)
-                    terrainType = etree.SubElement(mdrelief, "{%s}terrainType" %ns_md)
-                    terrainType.text = "MassPointRelief"
-#                    terrainProperties = etree.SubElement(mdrelief, "{%s}TerrainProperties" %ns_md)
-#                    mdBreaklineRelief = etree.SubElement(terrainProperties, "{%s}MDBreaklineRelief" %ns_md)
-#                    lineCount = etree.SubElement(mdBreaklineRelief, "{%s}pointCount" %ns_md)
-#                    lineCount.text = "1000"
-                    
+                    triangleCount.text = str(numberOfTriangles)
+                  
         if item == "Transportation":
             mdtransportation = etree.SubElement(mdCityfeatures, "{%s}MDtransportation" %ns_md)
             featureType = etree.SubElement(mdtransportation, "{%s}featureType" %ns_md)
@@ -1296,13 +1078,7 @@ def generatemetadata(inputfile, outputfile):
                 mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
                 mdlodcount.text = str(lod4cfCount)
             
-        if item == "CityObjectGroup":
-            mdcityobjectgroup = etree.SubElement(mdCityfeatures, "{%s}MDcityObjectGroup" %ns_md)
-            featureType = etree.SubElement(mdcityobjectgroup, "{%s}featureType" %ns_md)
-            featureType.text = "CityObjectGroup"
-            featureCount = etree.SubElement(mdcityobjectgroup, "{%s}featureCount" %ns_md)
-            featureCount.text = str(cityobjectgroupCount)
-            
+          
         if item == "LandUse":
             mdlanduse = etree.SubElement(mdCityfeatures, "{%s}MDlandUse" %ns_md)
             featureType = etree.SubElement(mdlanduse, "{%s}featureType" %ns_md)
@@ -1340,7 +1116,395 @@ def generatemetadata(inputfile, outputfile):
                 mdlod.text = "4"
                 mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
                 mdlodcount.text = str(lod4luseCount)
-            
+        
+        if item == "CityObjectGroup":
+            mdcityobjectgroup = etree.SubElement(mdCityfeatures, "{%s}MDcityObjectGroup" %ns_md)
+            featureType = etree.SubElement(mdcityobjectgroup, "{%s}featureType" %ns_md)
+            featureType.text = "CityObjectGroup"
+            featureCount = etree.SubElement(mdcityobjectgroup, "{%s}featureCount" %ns_md)
+            featureCount.text = str(cityobjectgroupCount)
+            for cogItem in cogSet:
+                mdcogMember = etree.SubElement(mdcityobjectgroup, "{%s}MDcityObjectGroupMember" %ns_md)
+                if cogItem == "Vegetation":
+                    mdvegetation = etree.SubElement(mdcogMember, "{%s}MDvegetation" %ns_md)    
+                    featureType = etree.SubElement(mdvegetation, "{%s}featureType" %ns_md)
+                    featureType.text = "Vegetation"
+                    featureCount = etree.SubElement(mdvegetation, "{%s}featureCount" %ns_md)
+                    featureCount.text = str(cogvegCount)
+                    lods = etree.SubElement(mdvegetation, "{%s}LevelsOfDetail" %ns_md)
+                    if lod1cogvegCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "1"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod1cogvegCount)
+                    if lod2cogvegCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "2"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod2cogvegCount)
+                    if lod3cogvegCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "3"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod3cogvegCount)
+                    if lod4cogvegCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "4"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod4cogvegCount)
+                    plantCovers = etree.SubElement(mdvegetation, "{%s}plantCovers" %ns_md)
+                    plantCovers.text = str(plantcoverCount)
+                    solitaryVegetationObjects = etree.SubElement(mdvegetation, "{%s}solitaryVegetationObjects" %ns_md)
+                    solitaryVegetationObjects.text = str(svoCount)
+                if cogItem == "LandUse":
+                    mdlanduse = etree.SubElement(mdcogMember, "{%s}MDlandUse" %ns_md)
+                    featureType = etree.SubElement(mdlanduse, "{%s}featureType" %ns_md)
+                    featureType.text = "LandUse"
+                    featureCount = etree.SubElement(mdlanduse, "{%s}featureCount" %ns_md)
+                    featureCount.text = str(coglanduseCount)
+                    lods = etree.SubElement(mdlanduse, "{%s}LevelsOfDetail" %ns_md)
+                    if lod0cogluseCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "0"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod0cogluseCount)
+                    if lod1cogluseCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "1"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod1cogluseCount)
+                    if lod2cogluseCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "2"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod2cogluseCount)
+                    if lod3cogluseCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "3"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod3cogluseCount)
+                    if lod4cogluseCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "4"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod4cogluseCount)
+                if cogItem == "CityFurniture":
+                    mdcityfurniture = etree.SubElement(mdcogMember, "{%s}MDcityFurniture" %ns_md)
+                    featureType = etree.SubElement(mdcityfurniture, "{%s}featureType" %ns_md)
+                    featureType.text = "CityFurniture"
+                    featureCount = etree.SubElement(mdcityfurniture, "{%s}featureCount" %ns_md)
+                    featureCount.text = str(cogcityfurnitureCount)
+                    lods = etree.SubElement(mdcityfurniture, "{%s}LevelsOfDetail" %ns_md)
+                    if lod1cogcfCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "1"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod1cogcfCount)
+                    if lod2cogcfCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "2"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod2cogcfCount)
+                    if lod3cogcfCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "3"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod3cogcfCount)
+                    if lod4cogcfCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "4"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod4cogcfCount)
+                if cogItem == "Generics":
+                    mdgenerics = etree.SubElement(mdcogMember, "{%s}MDgenerics" %ns_md)
+                    featureType = etree.SubElement(mdgenerics, "{%s}featureType" %ns_md)
+                    featureType.text = "Generics"
+                    featureCount = etree.SubElement(mdgenerics, "{%s}featureCount" %ns_md)
+                    featureCount.text = str(coggenericsCount)
+                    lods = etree.SubElement(mdgenerics, "{%s}LevelsOfDetail" %ns_md)
+                    if lod0coggenCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "1"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod0coggenCount)
+                    if lod1coggenCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "1"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod1coggenCount)
+                    if lod2coggenCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "2"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod2coggenCount)
+                    if lod3coggenCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "3"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod3coggenCount)
+                    if lod4coggenCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "4"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod4coggenCount)
+                if cogItem == "Transportation":
+                    mdtransportation = etree.SubElement(mdcogMember, "{%s}MDtransportation" %ns_md)
+                    featureType = etree.SubElement(mdtransportation, "{%s}featureType" %ns_md)
+                    featureType.text = "Transportation"
+                    featureCount = etree.SubElement(mdtransportation, "{%s}featureCount" %ns_md)
+                    featureCount.text = str(cogtransportationCount)
+                    lods = etree.SubElement(mdtransportation, "{%s}LevelsOfDetail" %ns_md)
+                    if lod0cogtranCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "0"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod0cogtranCount)
+                    if lod1cogtranCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "1"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod1cogtranCount)
+                    if lod2cogtranCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "2"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod2cogtranCount)
+                    if lod3cogtranCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "3"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod3cogtranCount)
+                    if lod4cogtranCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "4"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod4cogtranCount)
+                    roads = etree.SubElement(mdtransportation, "{%s}roads" %ns_md)
+                    roads.text = str(cogroadCount)
+                    railways = etree.SubElement(mdtransportation, "{%s}railways" %ns_md)
+                    railways.text = str(cograilwayCount)
+                    tracks = etree.SubElement(mdtransportation, "{%s}tracks" %ns_md)
+                    tracks.text = str(cogtrackCount)
+                    squares = etree.SubElement(mdtransportation, "{%s}squares" %ns_md)
+                    squares.text = str(cogsquareCount)
+                if cogItem == "WaterBody":
+                    mdwaterbody = etree.SubElement(mdcogMember, "{%s}MDwaterBody" %ns_md)
+                    featureType = etree.SubElement(mdwaterbody, "{%s}featureType" %ns_md)
+                    featureType.text = "WaterBody"
+                    featureCount = etree.SubElement(mdwaterbody, "{%s}featureCount" %ns_md)
+                    featureCount.text = str(cogwaterCount)
+                    lods = etree.SubElement(mdwaterbody, "{%s}LevelsOfDetail" %ns_md)
+                    if lod0cogwaterCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "0"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod0cogwaterCount)
+                    if lod1cogwaterCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "1"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod1cogwaterCount)
+                    if lod2cogwaterCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "2"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod2cogwaterCount)
+                    if lod3cogwaterCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "3"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod3cogwaterCount)
+                    if lod4cogwaterCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "4"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod4cogwaterCount)
+                if cogItem == "Tunnel":
+                    mdtunnel = etree.SubElement(mdcogMember, "{%s}MDtunnel" %ns_md)
+                    featureType = etree.SubElement(mdtunnel, "{%s}featureType" %ns_md)
+                    featureType.text = "Tunnel"
+                    featureCount = etree.SubElement(mdtunnel, "{%s}featureCount" %ns_md)
+                    featureCount.text = str(cogtunnelCount)
+                    lods = etree.SubElement(mdtunnel, "{%s}LevelsOfDetail" %ns_md)
+                    if lod1cogtunnelCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "1"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod1cogtunnelCount)
+                    if lod2cogtunnelCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "2"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod2cogtunnelCount)
+                    if lod3cogtunnelCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "3"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod3cogtunnelCount)
+                    if lod4cogtunnelCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "4"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod4cogtunnelCount)
+                    tunnelParts = etree.SubElement(mdtunnel, "{%s}tunnelParts" %ns_md)
+                    tunnelParts.text = str(cogtunnelpartsCount)
+                    tunnelInstallations = etree.SubElement(mdtunnel, "{%s}tunnelInstallations" %ns_md)
+                    tunnelInstallations.text = str(cogtunnelinstallationsCount)
+                if cogItem == "Bridge":
+                    mdbridge = etree.SubElement(mdcogMember, "{%s}MDbridge" %ns_md)
+                    featureType = etree.SubElement(mdbridge, "{%s}featureType" %ns_md)
+                    featureType.text = "Bridge"
+                    featureCount = etree.SubElement(mdbridge, "{%s}featureCount" %ns_md)
+                    featureCount.text = str(cogbridgeCount)
+                    lods = etree.SubElement(mdbridge, "{%s}LevelsOfDetail" %ns_md)
+                    if lod1cogbridgeCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "1"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod1cogbridgeCount)
+                    if lod2cogbridgeCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "2"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod2cogbridgeCount)
+                    if lod3cogbridgeCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "3"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod3cogbridgeCount)
+                    if lod4cogbridgeCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "4"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod4cogbridgeCount)
+                    bridgeParts = etree.SubElement(mdbridge, "{%s}bridgeParts" %ns_md)
+                    bridgeParts.text = str(cogbridgepartsCount)
+                    bridgeInstallations = etree.SubElement(mdbridge, "{%s}bridgeInstallations" %ns_md)
+                    bridgeInstallations.text = str(cogbridgeinstallationsCount)
+                    bridgeConstructionElements = etree.SubElement(mdbridge, "{%s}bridgeConstructionElements" %ns_md)
+                    bridgeConstructionElements.text = str(cogbridgeconstructionelementsCount)
+                if cogItem == "Building":
+                    mdbuilding = etree.SubElement(mdcogMember, "{%s}MDbuilding" %ns_md)
+                    featureType = etree.SubElement(mdbuilding, "{%s}featureType" %ns_md)
+                    featureType.text = "Building"
+                    featureCount = etree.SubElement(mdbuilding, "{%s}featureCount" %ns_md)
+                    featureCount.text = str(cogbuildingCount)
+                    lods = etree.SubElement(mdbuilding, "{%s}LevelsOfDetail" %ns_md)
+                    if lod0cogbldgCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "1"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod0cogbldgCount)
+                    if lod1cogbldgCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "1"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod1cogbldgCount)
+                    if lod2cogbldgCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "2"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod2cogbldgCount)
+                    if lod3cogbldgCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "3"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod3cogbldgCount)
+                    if lod4cogbldgCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "4"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod4cogbldgCount)
+                    buildingParts = etree.SubElement(mdbuilding, "{%s}buildingParts" %ns_md)
+                    buildingParts.text = str(cogbuildingpartsCount)
+                    buildingInstallations = etree.SubElement(mdbuilding, "{%s}buildingInstallations" %ns_md)
+                    buildingInstallations.text = str(cogbuildinginstallationsCount)
+                if cogItem == "Relief":   
+                    mdrelief = etree.SubElement(mdcogMember, "{%s}MDterrain" %ns_md)
+                    featureType = etree.SubElement(mdrelief, "{%s}featureType" %ns_md)
+                    featureType.text = "Relief"
+                    featureCount = etree.SubElement(mdrelief, "{%s}featureCount" %ns_md)
+                    featureCount.text = str(cogtinreliefCount)
+                    lods = etree.SubElement(mdrelief, "{%s}LevelsOfDetail" %ns_md)
+                    if lod0cogtinreliefCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "0"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod0cogtinreliefCount)
+                    if lod1cogtinreliefCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "1"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod1cogtinreliefCount)
+                    if lod2cogtinreliefCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "2"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod2cogtinreliefCount)
+                    if lod3cogtinreliefCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "3"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod3cogtinreliefCount)
+                    if lod4cogtinreliefCount != 0:
+                        lod = etree.SubElement(lods, "{%s}LevelOfDetail" %ns_md)
+                        mdlod = etree.SubElement(lod, "{%s}lod" %ns_md)
+                        mdlod.text = "4"
+                        mdlodcount = etree.SubElement(lod, "{%s}objectCount" %ns_md)
+                        mdlodcount.text = str(lod4cogtinreliefCount)
+                    terrainType = etree.SubElement(mdrelief, "{%s}terrainType" %ns_md)
+                    terrainType.text = "TINRelief"
+                    terrainProperties = etree.SubElement(mdrelief, "{%s}TerrainProperties" %ns_md)
+                    mdTINRelief = etree.SubElement(terrainProperties, "{%s}MDTINRelief" %ns_md)
+                    triangleCount = etree.SubElement(mdTINRelief, "{%s}triangleCount" %ns_md)
+                    triangleCount.text = str(cognumberOfTriangles)
+                  
+    
     lod0total = 0
     lod1total = 0
     lod2total = 0
@@ -1348,24 +1512,43 @@ def generatemetadata(inputfile, outputfile):
     lod4total = 0
     
     lod0total = lod0bldgCount + lod0tranCount + lod0waterCount + \
-                lod0tinreliefCount + lod0rasterreliefCount + lod0blreliefCount + lod0mpreliefCount + \
-                lod0genCount + lod0luseCount
+                lod0tinreliefCount + \
+                lod0genCount + lod0luseCount + \
+                lod0cogbldgCount + lod0cogtranCount + lod0cogwaterCount + \
+                lod0coggenCount + lod0cogluseCount
+                
     lod1total = lod1bldgCount + lod1bridgeCount + lod1tunnelCount + \
                 lod1tranCount + lod1vegCount + lod1waterCount + \
-                lod1tinreliefCount + lod1rasterreliefCount + lod1blreliefCount + lod1mpreliefCount + \
-                lod1genCount + lod1cfCount + lod1luseCount
+                lod1tinreliefCount  + \
+                lod1genCount + lod1cfCount + lod1luseCount + \
+                lod1cogbldgCount + lod1cogbridgeCount + lod1cogtunnelCount + \
+                lod1cogtranCount + lod1cogvegCount + lod1cogwaterCount + \
+                lod1coggenCount + lod1cogcfCount + lod1cogluseCount
+                
     lod2total = lod2bldgCount + lod2bridgeCount + lod2tunnelCount+ \
                 lod2tranCount + lod2vegCount + lod2waterCount +\
-                lod2tinreliefCount + lod2rasterreliefCount + lod2blreliefCount + lod2mpreliefCount + \
-                lod2genCount + lod2cfCount + lod2luseCount
+                lod2tinreliefCount + \
+                lod2genCount + lod2cfCount + lod2luseCount + \
+                lod2cogbldgCount + lod2cogbridgeCount + lod2cogtunnelCount + \
+                lod2cogtranCount + lod2cogvegCount  + lod2cogwaterCount + \
+                lod2coggenCount + lod2cogcfCount + lod2cogluseCount
+                
     lod3total = lod3bldgCount + lod3bridgeCount + lod3tunnelCount + \
                 lod3tranCount + lod3vegCount + lod3waterCount + \
-                lod3tinreliefCount + lod3rasterreliefCount + lod3blreliefCount + lod3mpreliefCount + \
-                lod3genCount + lod3cfCount + lod3luseCount
+                lod3tinreliefCount  + \
+                lod3genCount + lod3cfCount + lod3luseCount + \
+                lod3cogbldgCount + lod3cogbridgeCount + lod3cogtunnelCount + \
+                lod3cogtranCount + lod3cogvegCount + lod3cogwaterCount + \
+                lod3coggenCount + lod3cogcfCount + lod3cogluseCount
+                
     lod4total = lod4bldgCount + lod4bridgeCount + lod4tunnelCount + \
                 lod4tranCount + lod4vegCount +lod4waterCount + \
-                lod4tinreliefCount + lod4rasterreliefCount + lod4blreliefCount + lod4mpreliefCount + \
-                lod4genCount + lod4cfCount + lod4luseCount
+                lod4tinreliefCount + \
+                lod4genCount + lod4cfCount + lod4luseCount + \
+                lod4cogbldgCount + lod4cogbridgeCount + lod4cogtunnelCount + \
+                lod4cogtranCount + lod4cogvegCount +lod4cogwaterCount + \
+                lod4coggenCount + lod4cogcfCount + lod4cogluseCount
+                
     
     # LevelsOfDetail
     lods = etree.SubElement(mdcitymodel, "{%s}LevelsOfDetail" %ns_md)
@@ -1408,23 +1591,28 @@ def generatemetadata(inputfile, outputfile):
 
 #-------------start of program-------------------#
 
+argparser = argparse.ArgumentParser(description='******* Metadata Generator for 3D City Models *******')
+argparser.add_argument('-c', '--citygml', help='CityGML format', required=False)
+argparser.add_argument('-i', '--filename', help='CityGML Source input', required=False)
+args = vars(argparser.parse_args())
+
 #CityGML source
-print ("\n ******* Metadata Generation *******")
-citygml_src = "citygmldatasets/Part-6-Generics-V1.gml"
-script_dir = os.path.dirname(__file__)
-abs_file_path = os.path.join(script_dir, citygml_src)
-print ("\nCityGML input file: ", citygml_src)
+citygmlsource = args['filename']
+citygmlmetadata = argRead(args['citygml'])
+if citygmlsource:
+    inputfile = str(citygmlsource)
 
-#tree = etree.parse(abs_file_path)
-#root = tree.getroot()
+if citygmlmetadata:
+    print ("\n ******* Metadata Generation *******")
+    print ("\nCityGML input file: ", citygmlsource)
 
+    #--------------Output----------------#
 
-#--------------Output----------------#
+    outputfile = citygmlsource.split(".")[0]+"_metadata.gml"
+    print ("\nMetadata output file: ",outputfile)
 
-metadata_dump = citygml_src.split(".")[0]+"_metadata.gml"
-print ("\nMetadata output file: ",metadata_dump)
-outputfile = os.path.join(script_dir, metadata_dump)
-start = time.time()
-generatemetadata(abs_file_path,outputfile)
-end = time.time()
-print ("\nTime taken for metadata generation: ",end - start, " sec")
+    start = time.time()
+    generatemetadata(inputfile,outputfile)
+    end = time.time()
+    
+    print ("\nTime taken for metadata generation: ",end - start, " sec")
