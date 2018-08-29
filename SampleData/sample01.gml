@@ -26,30 +26,28 @@
     http://www.opengis.net/citygml/landuse/2.0 http://schemas.opengis.net/citygml/landuse/2.0/landUse.xsd         
     http://www.opengis.net/citygml/generics/2.0 http://schemas.opengis.net/citygml/generics/2.0/generics.xsd         
     http://www.opengis.net/citygml/cityobjectgroup/2.0 http://schemas.opengis.net/citygml/cityobjectgroup/2.0/cityObjectGroup.xsd
-    http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE ../XSD/3DMD_ADE.xsd">
+    http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE 3DMD_ADE.xsd">
     
-    <cityObjectMember>
+    <md:metadataMember> 
         <md:MDcitymodel>
+            
             <md:metadataIdentifier>MD_3D_MM_12345</md:metadataIdentifier>
-            <md:citymodelIdentifier>MM_12345</md:citymodelIdentifier>
+            <md:citymodelIdentifier>GML_12345</md:citymodelIdentifier>
+            
             <md:ISOmetadata>
                 <md:ISOidentifier>
                     <md:datasetTitle>3D City Model</md:datasetTitle>
                     <md:datasetReferenceDate>2017-01-01</md:datasetReferenceDate>
                     <md:geoLocation>Delft</md:geoLocation>
                     <md:datasetLanguage>English</md:datasetLanguage>
-                    <md:datasetTopicCategory 
-                        codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE//codelists/MDtopicCategory.xml">
-                        geoscientificInformation
+                    <md:datasetTopicCategory codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE//codelists/MDtopicCategory.xml">
+                      geoscientificInformation
                     </md:datasetTopicCategory>
-                    <md:datasetDescription>Metadata associated with the 3D city model</md:datasetDescription>
                     <md:distributionFormatVersion>CityGML 2.0</md:distributionFormatVersion>
-                    <md:spatialRepresentationType 
-                        codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/codelists/MDspatialRepTypeCode.xml">
-                        Vector
+                    <md:spatialRepresentationType codeSpace="http://godzilla.bk.tudelft.nl/schemas/3DMD_ADE/codelists/MDspatialRepTypeCode.xml">
+                      Vector
                     </md:spatialRepresentationType>
                     <md:referenceSystem>urn:ogc:def:crs,crs:EPSG:6.12:31466,crs:EPSG:6.12:5783</md:referenceSystem>
-                    <md:temporalInformation>2017-01-02</md:temporalInformation>
                     <md:onlineResource>https://3d.bk.tudelft.nl/opendata/3dfier/</md:onlineResource>
                     <md:fileIdentifier>Sample01.xml</md:fileIdentifier>
                     <md:metadataStandard>ISO 19115</md:metadataStandard>
@@ -66,18 +64,20 @@
                         </md:OrganizationalContact>
                     </md:metadataPointOfContact>
                     <md:metadataDateStamp>2017-02-01</md:metadataDateStamp>
-                    <md:lineage>
-                        <md:Lineage>
-                            <md:source>Point cloud</md:source>
-                            <md:processStep>3Dfier processing</md:processStep>
-                        </md:Lineage>
-                    </md:lineage>
-                    <md:boundingBox3D>
-                        <gml:Envelope>
-                            <gml:lowerCorner>3423800.0 5705800.0 140.4</gml:lowerCorner>
-                            <gml:upperCorner>3426200.0 5708200.0 252.6</gml:upperCorner>
-                        </gml:Envelope>
-                    </md:boundingBox3D>
+                    <md:extent>
+                        <md:Extent>
+                            <md:geographicElement>
+                                <md:GeographicalExtent>
+                                    <md:polygon3D>
+                                        <gml:Envelope>
+                                            <gml:lowerCorner>3423800.0 5705800.0 140.4</gml:lowerCorner>
+                                            <gml:upperCorner>3426200.0 5708200.0 252.6</gml:upperCorner>
+                                        </gml:Envelope>
+                                    </md:polygon3D>
+                                </md:GeographicalExtent>
+                            </md:geographicElement>
+                        </md:Extent>
+                    </md:extent>
                     <md:abstract>Metadata associated with the 3D city model</md:abstract>
                     <md:specificUsage>Geoinformation model</md:specificUsage>
                     <md:keywords>3D CityGML, 3D Metadata</md:keywords>
@@ -90,23 +90,24 @@
                     </md:constraints>
                 </md:ISOidentifier>
             </md:ISOmetadata>
-            <md:thematicModels>
-                <md:presentThematicModels>
-                    <md:thematicModel>Building</md:thematicModel>
-                    <md:thematicModel>Bridge</md:thematicModel>
-                    <md:thematicModel>Tunnel</md:thematicModel>
-                    <md:thematicModel>Vegetation</md:thematicModel>
-                    <md:thematicModel>WaterBody</md:thematicModel>
-                    <md:thematicModel>Transportation</md:thematicModel>
-                    <md:thematicModel>Generics</md:thematicModel>
-                    <md:thematicModel>CityFurniture</md:thematicModel>
-                    <md:thematicModel>CityObjectGroup</md:thematicModel>
-                    <md:thematicModel>Relief</md:thematicModel>
-                    <md:thematicModel>LandUse</md:thematicModel>
-                </md:presentThematicModels>
-            </md:thematicModels>
-            <md:textures>present</md:textures>
-            <md:materials>present</md:materials>
+            
+            <md:thematicModules>
+                <md:presentThematicModules>
+                    <md:thematicModule>Building</md:thematicModule>
+                    <md:thematicModule>Bridge</md:thematicModule>
+                    <md:thematicModule>CityFurniture</md:thematicModule>
+                    <md:thematicModule>Generics</md:thematicModule>
+                    <md:thematicModule>LandUse</md:thematicModule>
+                    <md:thematicModule>Relief</md:thematicModule>
+                    <md:thematicModule>Tunnel</md:thematicModule>
+                </md:presentThematicModules>
+            </md:thematicModules>
+            
+            <md:textures>absent</md:textures>
+            <md:materials>absent</md:materials>
+            <md:xlinks>absent</md:xlinks>
+            <md:externalReferences>absent</md:externalReferences>
+            
             <md:ADEmetadata>
                 <md:ADEidentifier>
                     <md:adeName>CityGML iTINs ADE</md:adeName>
@@ -128,10 +129,12 @@
                     <md:documentation>https://github.com/tudelft3d/CityGML_iTINs_ADE/tree/master/Documentation</md:documentation>
                 </md:ADEidentifier>
             </md:ADEmetadata>
+        
             <md:MDcityfeatures>
                 <md:MDbuilding>
                     <md:featureType>Building</md:featureType>
-                    <md:featureCount>100</md:featureCount>
+                    <md:uniqueFeatureCount>100</md:uniqueFeatureCount>
+                    <md:aggregateFeatureCount>100</md:aggregateFeatureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
                             <md:lod>1</md:lod>
@@ -145,7 +148,8 @@
             <md:MDcityfeatures>
                 <md:MDbridge>
                     <md:featureType>Bridge</md:featureType>
-                    <md:featureCount>100</md:featureCount>
+                    <md:uniqueFeatureCount>100</md:uniqueFeatureCount>
+                    <md:aggregateFeatureCount>100</md:aggregateFeatureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
                             <md:lod>1</md:lod>
@@ -158,9 +162,29 @@
                 </md:MDbridge>
             </md:MDcityfeatures>
             <md:MDcityfeatures>
+                <md:MDterrain>
+                    <md:featureType>Relief</md:featureType>
+                    <md:uniqueFeatureCount>1</md:uniqueFeatureCount>
+                    <md:aggregateFeatureCount>1</md:aggregateFeatureCount>
+                    <md:LevelsOfDetail>
+                        <md:LevelOfDetail>
+                            <md:lod>1</md:lod>
+                            <md:objectCount>1</md:objectCount>
+                        </md:LevelOfDetail>
+                    </md:LevelsOfDetail>
+                    <md:terrainType>TINRelief</md:terrainType>
+                    <md:TerrainProperties>
+                        <md:MDTINRelief>
+                            <md:triangleCount>1000</md:triangleCount>
+                        </md:MDTINRelief>
+                    </md:TerrainProperties>
+                </md:MDterrain>
+            </md:MDcityfeatures>
+            <md:MDcityfeatures>
                 <md:MDtunnel>
                     <md:featureType>Tunnel</md:featureType>
-                    <md:featureCount>100</md:featureCount>
+                    <md:uniqueFeatureCount>100</md:uniqueFeatureCount>
+                    <md:aggregateFeatureCount>100</md:aggregateFeatureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
                             <md:lod>1</md:lod>
@@ -172,23 +196,10 @@
                 </md:MDtunnel>
             </md:MDcityfeatures>
             <md:MDcityfeatures>
-                <md:MDvegetation>
-                    <md:featureType>Vegetation</md:featureType>
-                    <md:featureCount>100</md:featureCount>
-                    <md:LevelsOfDetail>
-                        <md:LevelOfDetail>
-                            <md:lod>1</md:lod>
-                            <md:objectCount>100</md:objectCount>
-                        </md:LevelOfDetail> 
-                    </md:LevelsOfDetail>
-                    <md:plantCovers>50</md:plantCovers>
-                    <md:solitaryVegetationObjects>50</md:solitaryVegetationObjects>
-                </md:MDvegetation>
-            </md:MDcityfeatures>
-            <md:MDcityfeatures>
                 <md:MDtransportation>
                     <md:featureType>Transportation</md:featureType>
-                    <md:featureCount>100</md:featureCount>
+                    <md:uniqueFeatureCount>100</md:uniqueFeatureCount>
+                    <md:aggregateFeatureCount>100</md:aggregateFeatureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
                             <md:lod>1</md:lod>
@@ -202,21 +213,10 @@
                 </md:MDtransportation>
             </md:MDcityfeatures>
             <md:MDcityfeatures>
-                <md:MDwaterBody>
-                    <md:featureType>WaterBody</md:featureType>
-                    <md:featureCount>100</md:featureCount>
-                    <md:LevelsOfDetail>
-                        <md:LevelOfDetail>
-                            <md:lod>1</md:lod>
-                            <md:objectCount>100</md:objectCount>
-                        </md:LevelOfDetail> 
-                    </md:LevelsOfDetail>
-                </md:MDwaterBody>
-            </md:MDcityfeatures>
-            <md:MDcityfeatures>
                 <md:MDlanduse>
                     <md:featureType>LandUse</md:featureType>
-                    <md:featureCount>100</md:featureCount>
+                    <md:uniqueFeatureCount>100</md:uniqueFeatureCount>
+                    <md:aggregateFeatureCount>100</md:aggregateFeatureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
                             <md:lod>1</md:lod>
@@ -228,7 +228,8 @@
             <md:MDcityfeatures>
                 <md:MDcityFurniture>
                     <md:featureType>CityFurniture</md:featureType>
-                    <md:featureCount>100</md:featureCount>
+                    <md:uniqueFeatureCount>100</md:uniqueFeatureCount>
+                    <md:aggregateFeatureCount>100</md:aggregateFeatureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
                             <md:lod>2</md:lod>
@@ -238,21 +239,10 @@
                 </md:MDcityFurniture>
             </md:MDcityfeatures>
             <md:MDcityfeatures>
-                <md:MDcityObjectGroup>
-                    <md:featureType>CityObjectGroup</md:featureType>
-                    <md:featureCount>100</md:featureCount>
-                    <md:LevelsOfDetail>
-                        <md:LevelOfDetail>
-                            <md:lod>1</md:lod>
-                            <md:objectCount>100</md:objectCount>
-                        </md:LevelOfDetail> 
-                    </md:LevelsOfDetail>
-                </md:MDcityObjectGroup>
-            </md:MDcityfeatures>
-            <md:MDcityfeatures>
                 <md:MDgenerics>
                     <md:featureType>Generics</md:featureType>
-                    <md:featureCount>100</md:featureCount>
+                    <md:uniqueFeatureCount>100</md:uniqueFeatureCount>
+                    <md:aggregateFeatureCount>100</md:aggregateFeatureCount>
                     <md:LevelsOfDetail>
                         <md:LevelOfDetail>
                             <md:lod>1</md:lod>
@@ -261,84 +251,7 @@
                     </md:LevelsOfDetail>
                 </md:MDgenerics>
             </md:MDcityfeatures>
-            <md:MDcityfeatures>
-                <md:MDterrain>
-                    <md:featureType>Relief</md:featureType>
-                    <md:featureCount>1</md:featureCount>
-                    <md:LevelsOfDetail>
-                        <md:LevelOfDetail>
-                            <md:lod>1</md:lod>
-                            <md:objectCount>1</md:objectCount>
-                        </md:LevelOfDetail>
-                        </md:LevelsOfDetail>
-                    <md:terrainType>TINRelief</md:terrainType>
-                    <md:TerrainProperties>
-                        <md:MDTINRelief>
-                            <md:triangleCount>1000</md:triangleCount>
-                        </md:MDTINRelief>
-                    </md:TerrainProperties>
-                </md:MDterrain>
-            </md:MDcityfeatures>
-            <md:MDcityfeatures>
-                <md:MDterrain>
-                    <md:featureType>Relief</md:featureType>
-                    <md:featureCount>1</md:featureCount>
-                    <md:LevelsOfDetail>
-                        <md:LevelOfDetail>
-                            <md:lod>1</md:lod>
-                            <md:objectCount>1</md:objectCount>
-                        </md:LevelOfDetail>
-                    </md:LevelsOfDetail>
-                    <md:terrainType>RasterRelief</md:terrainType>
-                    <md:TerrainProperties>
-                        <md:MDRasterRelief>
-                            <md:extent>
-                                <gml:Envelope>
-                                    <gml:lowerCorner>3423800.0 5705800.0 140.4</gml:lowerCorner>
-                                    <gml:upperCorner>3426200.0 5708200.0 252.6</gml:upperCorner>
-                                </gml:Envelope>
-                            </md:extent>
-                            <md:resolution uom="cm">20</md:resolution>
-                        </md:MDRasterRelief>
-                    </md:TerrainProperties>
-                </md:MDterrain>
-            </md:MDcityfeatures>
-            <md:MDcityfeatures>
-                <md:MDterrain>
-                    <md:featureType>Relief</md:featureType>
-                    <md:featureCount>1</md:featureCount>
-                    <md:LevelsOfDetail>
-                        <md:LevelOfDetail>
-                            <md:lod>1</md:lod>
-                            <md:objectCount>1</md:objectCount>
-                        </md:LevelOfDetail>
-                    </md:LevelsOfDetail>
-                    <md:terrainType>MassPointRelief</md:terrainType>
-                    <md:TerrainProperties>
-                        <md:MDMasspointRelief>
-                            <md:pointCount>10000</md:pointCount>
-                        </md:MDMasspointRelief>
-                    </md:TerrainProperties>
-                </md:MDterrain>
-            </md:MDcityfeatures>
-            <md:MDcityfeatures>
-                <md:MDterrain>
-                    <md:featureType>Relief</md:featureType>
-                    <md:featureCount>1</md:featureCount>
-                    <md:LevelsOfDetail>
-                        <md:LevelOfDetail>
-                            <md:lod>1</md:lod>
-                            <md:objectCount>1</md:objectCount>
-                        </md:LevelOfDetail>
-                    </md:LevelsOfDetail>
-                    <md:terrainType>BreaklineRelief</md:terrainType>
-                    <md:TerrainProperties>
-                        <md:MDBreaklineRelief>
-                            <md:lineCount>10</md:lineCount>
-                        </md:MDBreaklineRelief>
-                    </md:TerrainProperties>
-                </md:MDterrain>
-            </md:MDcityfeatures>
+           
             <md:LevelsOfDetail>
                 <md:LevelOfDetail>
                     <md:lod>1</md:lod>
@@ -349,8 +262,9 @@
                 <md:LevelOfDetail>
                     <md:lod>2</md:lod>
                     <md:objectCount>100</md:objectCount>
-                </md:LevelOfDetail> 
+                </md:LevelOfDetail>
             </md:LevelsOfDetail>
-        </md:MDcitymodel>     
-    </cityObjectMember>
+        
+        </md:MDcitymodel>
+    </md:metadataMember>
 </CityModel>
